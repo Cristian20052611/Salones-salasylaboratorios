@@ -1,0 +1,45 @@
+PAQUETE DE CAMBIOS - AGENDA DE SALONES
+======================================
+
+Contenido
+---------
+  styles.css            CSS final completo (original + mejoras del coordinador
+                        + tema institucional + organizacion por pisos)
+  pisos.js              Agrupa los salones por piso en el navegador
+  aplicar-cambios.sh    Instala los cambios (hace copia de respaldo antes)
+  revertir-cambios.sh   Deshace los cambios (restaura el respaldo)
+  CAMBIOS.md            Documentacion de lo que se cambio
+  partes/               El CSS dividido en bloques, solo para consultar
+
+Como instalarlo en la maquina del grupo
+---------------------------------------
+1) Desde el CMD de Windows (no dentro de SSH), subir el paquete:
+
+     scp "C:/ruta/donde/lo/descargaron/paquete-agenda.tar.gz" USUARIO@IP_DE_LA_MAQUINA:/home/USUARIO/
+
+2) Conectarse por SSH a la maquina y ejecutar:
+
+     tar -xzf paquete-agenda.tar.gz
+     cd paquete-agenda
+     bash aplicar-cambios.sh
+
+   Si la app NO esta en /home/salas/agenda/app, indicar la carpeta:
+
+     bash aplicar-cambios.sh /ruta/a/la/carpeta/de/la/app
+
+   (es la carpeta donde estan index.html y styles.css)
+
+3) Revisar que las tres lineas de "Verificacion" digan 1.
+
+4) En el navegador: Ctrl + Shift + R.
+
+Para deshacer
+-------------
+     bash revertir-cambios.sh
+
+Notas
+-----
+- No se toca ningun archivo con la logica de reservas ni con los datos.
+- Los colores son aproximados a los del sitio de la universidad.
+- El piso se calcula quitando las dos ultimas cifras del codigo del salon
+  (102 = Piso 1, 205 = Piso 2).

@@ -1,0 +1,27 @@
+ACTUALIZACION COMPLETA - AGENDA DE AULAS
+========================================
+Incluye todo lo anterior (tema institucional, pisos, panel del coordinador) y la
+actualizacion 03 (filtro por software, horario sin "null", disponibilidad en tiempo real).
+
+Instalar (en la maquina virtual)
+--------------------------------
+1) Desde el CMD de Windows (no dentro de SSH):
+     scp "C:/ruta/actualizacion-completa.tar.gz" USUARIO@IP_DE_LA_MAQUINA:/home/USUARIO/
+2) Por SSH:
+     tar -xzf actualizacion-completa.tar.gz
+     cd actualizacion-completa
+     sudo bash aplicar.sh
+3) En el navegador: Ctrl + F5.
+
+Deshacer:  sudo bash revertir.sh
+
+Contenido
+---------
+  app/        index.html, app.js, styles.css, confirmar.html, restablecer.html, vendor/
+              (NO incluye supabase-config.js ni email-config.js: se conservan los de la VM)
+  sql/        10-tiempo-real.sql (aditivo, no borra datos)
+  anterior/   paquete-agenda original (solo consulta; ya esta incluido en styles.css)
+  aplicar.sh / revertir.sh
+
+Si la instalacion no esta en ~/agenda:   sudo AGENDA=/ruta/agenda bash aplicar.sh
+Si app.js de la VM tiene cambios propios: sudo FORZAR=1 bash aplicar.sh (hace respaldo igual)

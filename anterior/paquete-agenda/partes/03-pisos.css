@@ -1,0 +1,16 @@
+
+/* ===== POR PISOS E INTERFAZ MAS INTUITIVA ===== */
+.room-grid.por-pisos{display:block;}
+.floor-section{margin-bottom:26px;}
+.floor-title{display:flex;align-items:center;gap:10px;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--line);font-family:'Oswald',sans-serif;font-size:16px;letter-spacing:0.04em;text-transform:uppercase;color:var(--navy);font-weight:600;}
+.floor-title small{margin-left:auto;font-family:'IBM Plex Sans',sans-serif;font-size:12px;letter-spacing:0;text-transform:none;color:var(--ink-soft);font-weight:400;}
+.floor-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:var(--navy);color:var(--white);font-size:15px;border-bottom:3px solid var(--gold,#FFC61A);}
+.floor-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:14px;}
+
+/* Etiqueta de piso en la tabla del coordinador */
+.coord-table td[data-piso]::after{content:attr(data-piso);display:block;margin-top:2px;font-size:10.5px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-soft);}
+
+/* Estados mas claros */
+.room-status.available::before{content:'\25CF  ';}
+.room-status.occupied::before{content:'\25CF  ';}
+.room-card{min-height:92px;}

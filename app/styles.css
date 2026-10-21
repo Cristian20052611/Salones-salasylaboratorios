@@ -1,0 +1,1654 @@
+:root{
+  --navy:#0B3D77;
+  --navy-dark:#082C58;
+  --blue:#2E6FD9;
+  --blue-pale:#EAF2FC;
+  --blue-pale2:#DCEAFB;
+  --white:#FFFFFF;
+  --ink:#16233A;
+  --ink-soft:#55688A;
+  --line:#D7E3F3;
+  --available:#2E6FD9;
+  --available-bg:#E4EEFC;
+  --occupied:#5C6B84;
+  --occupied-bg:#E9ECF2;
+  --mine:#0B3D77;
+  --mine-bg:#DCE7F8;
+  --radius:10px;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'IBM Plex Sans', sans-serif;
+  background:var(--white);
+  color:var(--ink);
+  min-height:100vh;
+}
+.mono{font-family:'IBM Plex Mono', monospace;}
+.display{font-family:'Oswald', sans-serif;}
+ 
+/* ---------- LOGIN ---------- */
+#login-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at 20% 20%, #123f78 0%, transparent 45%),
+    radial-gradient(circle at 80% 85%, #123f78 0%, transparent 45%),
+    var(--navy);
+  padding:24px;
+}
+.id-card{
+  width:100%;
+  max-width:380px;
+  background:var(--white);
+  border-radius:14px;
+  padding:36px 32px 30px;
+  box-shadow:0 30px 60px -20px rgba(8,44,88,0.5);
+  position:relative;
+  border:1px solid var(--line);
+}
+.id-card::before{
+  content:'';
+  position:absolute;
+  top:0; left:50%;
+  transform:translate(-50%,-40%);
+  width:70px;height:22px;
+  background:var(--blue);
+  border-radius:0 0 8px 8px;
+}
+.badge{
+  width:56px;height:56px;
+  border-radius:50%;
+  background:var(--navy);
+  color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Oswald',sans-serif;
+  font-size:20px;font-weight:700;
+  margin:6px auto 14px;
+  border:3px solid var(--blue);
+}
+.id-card h1{
+  text-align:center;
+  font-size:22px;
+  letter-spacing:0.03em;
+  margin:0 0 2px;
+  text-transform:uppercase;
+  color:var(--navy);
+}
+.id-card p.subtitle{
+  text-align:center;
+  color:var(--ink-soft);
+  font-size:13px;
+  margin:0 0 26px;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+}
+.field{margin-bottom:16px;}
+.field label{
+  display:block;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color:var(--ink-soft);
+  margin-bottom:6px;
+}
+.field input{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid var(--line);
+  border-radius:7px;
+  background:var(--white);
+  font-size:14px;
+  font-family:inherit;
+  color:var(--ink);
+}
+.field input:focus{
+  outline:2px solid var(--blue);
+  outline-offset:1px;
+  border-color:var(--blue);
+}
+#login-error{
+  color:#B23B3B;
+  font-size:13px;
+  margin:-6px 0 14px;
+  min-height:16px;
+}
+.btn-primary{
+  width:100%;
+  padding:12px;
+  background:var(--navy);
+  color:var(--white);
+  border:none;
+  border-radius:7px;
+  font-family:'Oswald',sans-serif;
+  font-size:15px;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:background 0.15s ease;
+}
+.btn-primary:hover{background:var(--navy-dark);}
+.btn-primary:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+.btn-confirm{background:var(--blue);}
+.btn-confirm:hover{background:#2159B0;}
+.btn-muted{background:var(--ink-soft);}
+.btn-muted:hover{background:#41506b;}
+.login-hint{
+  text-align:center;
+  font-size:11.5px;
+  color:var(--ink-soft);
+  margin-top:16px;
+}
+ 
+/* ---------- APP SHELL ---------- */
+#app-screen{display:none; min-height:100vh;}
+header.topbar{
+  background:var(--navy);
+  color:var(--white);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 24px;
+  flex-wrap:wrap;
+  gap:10px;
+  border-bottom:4px solid var(--blue);
+}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand .mark{
+  width:36px;height:36px;
+  border-radius:50%;
+  border:2px solid var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Oswald',sans-serif;font-weight:700;font-size:14px;
+}
+.brand-text h2{
+  margin:0; font-size:17px; letter-spacing:0.03em;
+  font-family:'Oswald',sans-serif; text-transform:uppercase;
+}
+.brand-text span{font-size:11.5px; color:var(--blue-pale2); letter-spacing:0.04em;}
+.user-chip{display:flex; align-items:center; gap:10px;}
+.user-chip .avatar{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--blue); color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px; font-weight:700; font-family:'Oswald',sans-serif;
+}
+.user-chip span{font-size:13.5px;}
+.btn-ghost{
+  background:transparent;
+  border:1px solid var(--blue);
+  color:var(--white);
+  padding:7px 14px;
+  border-radius:6px;
+  font-size:13px;
+  cursor:pointer;
+  font-family:inherit;
+}
+.btn-ghost:hover{background:rgba(255,255,255,0.1);}
+ 
+.layout{
+  display:grid;
+  grid-template-columns:230px 1fr;
+  gap:0;
+  max-width:1240px;
+  margin:0 auto;
+}
+@media (max-width:820px){
+  .layout{grid-template-columns:1fr;}
+}
+ 
+aside.filters{
+  padding:22px 18px;
+  border-right:1px solid var(--line);
+}
+@media (max-width:820px){
+  aside.filters{border-right:none; border-bottom:1px solid var(--line);}
+}
+.filter-group{margin-bottom:22px;}
+.filter-group h3{
+  font-family:'Oswald',sans-serif;
+  font-size:12.5px;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color:var(--ink-soft);
+  margin:0 0 10px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:6px;
+}
+.chip-option{
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:8px 10px;
+  margin-bottom:5px;
+  border-radius:6px;
+  border:1px solid transparent;
+  background:transparent;
+  font-family:inherit;
+  font-size:13.5px;
+  color:var(--ink);
+  cursor:pointer;
+}
+.chip-option:hover{background:var(--blue-pale);}
+.chip-option.active{
+  background:var(--navy);
+  color:var(--white);
+  font-weight:500;
+}
+.filter-group input[type="date"]{
+  width:100%;
+  padding:8px 9px;
+  border:1px solid var(--line);
+  border-radius:6px;
+  font-family:inherit;
+  font-size:13.5px;
+  background:var(--white);
+  color:var(--ink);
+}
+.franja-note{
+  font-size:12px;
+  color:var(--ink-soft);
+  line-height:1.5;
+  background:var(--blue-pale);
+  border-left:3px solid var(--blue);
+  padding:8px 10px;
+  border-radius:4px;
+}
+ 
+main.content{padding:22px 24px 60px;}
+.content-head{
+  display:flex; justify-content:space-between; align-items:baseline;
+  flex-wrap:wrap; gap:8px;
+  margin-bottom:6px;
+}
+.content-head h2{
+  font-family:'Oswald',sans-serif;
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+  font-size:19px;
+  margin:0;
+  color:var(--navy);
+}
+.content-sub{font-size:13px; color:var(--ink-soft); margin-bottom:18px;}
+.legend{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:18px;}
+.legend-item{display:flex; align-items:center; gap:6px; font-size:12px; color:var(--ink-soft);}
+.dot{width:9px;height:9px;border-radius:50%; display:inline-block;}
+.dot.available{background:var(--available);}
+.dot.occupied{background:var(--occupied);}
+.dot.mine{background:var(--mine);}
+ 
+.room-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(178px,1fr));
+  gap:14px;
+}
+.room-card{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:0;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform 0.12s ease, box-shadow 0.12s ease;
+  display:flex;
+}
+.room-card:hover{transform:translateY(-2px); box-shadow:0 8px 18px -10px rgba(11,61,119,0.25);}
+.room-card:focus-visible{outline:2px solid var(--blue); outline-offset:2px;}
+.placard-tab{
+  width:9px;
+  flex-shrink:0;
+  transition:background 0.2s ease;
+}
+.placard-tab.available{background:var(--available);}
+.placard-tab.occupied{background:var(--occupied);}
+.placard-tab.mixed{background:linear-gradient(180deg, var(--available) 0 50%, var(--occupied) 50% 100%);}
+.room-body{padding:12px 13px; flex:1; min-width:0;}
+.room-code{
+  font-family:'Oswald',sans-serif;
+  font-size:20px;
+  letter-spacing:0.02em;
+  color:var(--navy);
+}
+.room-type{font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:8px;}
+.room-status{
+  font-size:12px;
+  font-weight:500;
+  padding:4px 8px;
+  border-radius:5px;
+  display:inline-block;
+}
+.room-status.available{color:var(--available); background:var(--available-bg);}
+.room-status.occupied{color:var(--occupied); background:var(--occupied-bg);}
+.room-status.mixed{color:var(--mine); background:var(--mine-bg);}
+.room-meta{font-size:11.5px; color:var(--ink-soft); margin-top:6px; line-height:1.4;}
+ 
+.empty-state{
+  padding:40px 20px; text-align:center; color:var(--ink-soft);
+  border:1px dashed var(--line); border-radius:10px;
+}
+ 
+/* ---------- MODAL ---------- */
+.modal-backdrop{
+  display:none;
+  position:fixed; inset:0;
+  background:rgba(11,61,119,0.55);
+  align-items:center; justify-content:center;
+  padding:20px;
+  z-index:50;
+}
+.modal{
+  background:var(--white);
+  border-radius:12px;
+  width:100%; max-width:460px;
+  max-height:88vh;
+  overflow-y:auto;
+  padding:24px 24px 20px;
+  border:1px solid var(--line);
+}
+.modal-head{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px;}
+.modal-head h3{
+  font-family:'Oswald',sans-serif; text-transform:uppercase;
+  font-size:20px; margin:0; color:var(--navy);
+}
+.modal-close{
+  background:none; border:none; cursor:pointer;
+  font-size:20px; color:var(--ink-soft); line-height:1;
+  padding:4px;
+}
+.modal-sub{font-size:12.5px; color:var(--ink-soft); margin-bottom:16px;}
+ 
+.modal-section{display:none;}
+.modal-section.open{display:block;}
+ 
+/* Info view (mañana) */
+.room-detail{
+  background:var(--blue-pale);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:14px 16px;
+  margin-bottom:16px;
+}
+.room-detail-title{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  color:var(--ink-soft);
+  margin-bottom:10px;
+}
+.room-detail-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px 16px;
+}
+.room-detail-item{display:flex; flex-direction:column; gap:2px;}
+.room-detail-label{font-size:11px; color:var(--ink-soft);}
+.room-detail-value{font-size:13.5px; color:var(--navy); font-weight:500;}
+ 
+.block-info-list{display:flex; flex-direction:column; gap:10px;}
+.block-info-row{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:10px 12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.block-info-time{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--navy);}
+.block-info-status{font-size:12.5px;}
+.block-info-status.available{color:var(--available);}
+.block-info-status.occupied{color:var(--occupied);}
+.block-info-subject{font-size:11.5px; color:var(--ink-soft); margin-top:2px;}
+ 
+/* Calendar view */
+.calendar-nav{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:10px;
+}
+.cal-nav-btn{
+  background:var(--blue-pale);
+  border:1px solid var(--line);
+  color:var(--navy);
+  width:30px;height:30px;
+  border-radius:6px;
+  font-size:16px;
+  cursor:pointer;
+}
+.cal-nav-btn:disabled{opacity:0.35; cursor:not-allowed;}
+.cal-month-label{
+  font-family:'Oswald',sans-serif;
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+  font-size:14.5px;
+  color:var(--navy);
+}
+.calendar-weekdays{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  text-align:center;
+  font-size:11px;
+  color:var(--ink-soft);
+  margin-bottom:4px;
+}
+.calendar-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:4px;
+}
+.cal-day{
+  aspect-ratio:1;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:7px;
+  font-size:13px;
+  border:1px solid transparent;
+  background:var(--blue-pale);
+  color:var(--ink);
+  cursor:pointer;
+}
+.cal-day:hover{background:var(--blue-pale2);}
+.cal-day.today{border-color:var(--blue);}
+.cal-day.disabled{
+  background:transparent;
+  color:var(--line);
+  cursor:not-allowed;
+}
+.cal-day.empty{background:transparent; cursor:default;}
+.calendar-note{font-size:11.5px; color:var(--ink-soft); margin-top:12px;}
+ 
+/* Slots view */
+.back-link{
+  background:none; border:none; color:var(--blue);
+  font-size:12.5px; cursor:pointer; padding:0; margin-bottom:12px;
+  font-family:inherit;
+}
+.slot-list{display:flex; flex-direction:column; gap:8px;}
+.slot-row{
+  display:flex; align-items:center; justify-content:space-between;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:9px 12px;
+  font-size:13.5px;
+}
+.slot-time{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--navy);}
+.slot-state{font-size:12px; color:var(--ink-soft);}
+.slot-btn{
+  border:none; padding:6px 12px; border-radius:6px;
+  font-size:12.5px; cursor:pointer; font-family:inherit;
+}
+.slot-btn.book{background:var(--available); color:var(--white);}
+.slot-btn.cancel{background:var(--mine); color:var(--white);}
+.slot-btn.disabled{background:var(--occupied-bg); color:var(--ink-soft); cursor:not-allowed;}
+.slot-row.locked{opacity:0.65;}
+ 
+.booking-form{
+  margin-top:14px; padding-top:14px; border-top:1px solid var(--line);
+  display:none;
+}
+.booking-form.open{display:block;}
+.booking-form label{font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft); display:block; margin-bottom:6px;}
+.booking-form input{
+  width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:6px;
+  font-family:inherit; font-size:13.5px; margin-bottom:12px;
+}
+.booking-form .row-btns{display:flex; gap:8px;}
+.booking-form .row-btns button{flex:1;}
+ 
+.toast{
+  position:fixed; bottom:22px; left:50%; transform:translateX(-50%);
+  background:var(--navy); color:var(--white);
+  padding:11px 18px; border-radius:8px; font-size:13.5px;
+  box-shadow:0 10px 24px -8px rgba(8,44,88,0.5);
+  display:none; z-index:60;
+  border:1px solid var(--blue);
+}
+ 
+/* ---------- PANEL COORDINADOR ---------- */
+#coordinador-screen{display:none; min-height:100vh;}
+.booking-form select{
+  width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:6px;
+  font-family:inherit; font-size:13.5px; margin-bottom:12px; background:var(--white);
+}
+.coord-table-wrap{overflow-x:auto;}
+.coord-table{width:100%; border-collapse:collapse; font-size:13px;}
+.coord-table th, .coord-table td{
+  text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); white-space:nowrap;
+}
+.coord-table th{color:var(--ink-soft); text-transform:uppercase; font-size:11px; letter-spacing:0.04em;}
+.coord-actions{display:flex; gap:6px; white-space:nowrap;}
+ 
+/* ===== MEJORAS VISUALES - PANEL DEL COORDINADOR ===== */
+#coordinador-screen{background:var(--blue-pale);}
+#coordinador-screen header.topbar{position:sticky;top:0;z-index:20;box-shadow:0 6px 16px -10px rgba(8,44,88,0.7);}
+#coordinador-screen header.topbar .btn-ghost{border-radius:999px;padding:7px 15px;font-size:13px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.28);transition:background 0.15s ease,border-color 0.15s ease,transform 0.12s ease;}
+#coordinador-screen header.topbar .btn-ghost:hover{background:var(--blue);border-color:var(--blue);transform:translateY(-1px);}
+#coordinador-screen header.topbar .btn-ghost:focus-visible{outline:2px solid var(--white);outline-offset:2px;}
+.coord-table-wrap{background:var(--white);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 26px -20px rgba(11,61,119,0.45);max-height:calc(100vh - 250px);overflow:auto;}
+.coord-table{font-size:13.5px;border-collapse:separate;border-spacing:0;}
+.coord-table th,.coord-table td{padding:10px 14px;white-space:normal;vertical-align:middle;border-bottom:1px solid var(--line);}
+.coord-table th{position:sticky;top:0;z-index:2;background:var(--blue-pale);color:var(--navy);font-size:11px;letter-spacing:0.06em;white-space:nowrap;}
+.coord-table tbody tr:nth-child(even) td{background:#F6F9FE;}
+.coord-table tbody tr:hover td{background:var(--blue-pale2);}
+.coord-table tbody tr:last-child td{border-bottom:none;}
+.coord-table th:last-child,.coord-table td:last-child{position:sticky;right:0;background:var(--white);box-shadow:-10px 0 10px -10px rgba(11,61,119,0.28);}
+.coord-table th:last-child{background:var(--blue-pale);z-index:3;}
+.coord-table tbody tr:nth-child(even) td:last-child{background:#F6F9FE;}
+.coord-table tbody tr:hover td:last-child{background:var(--blue-pale2);}
+.coord-actions{gap:8px;}
+.coord-actions button,.coord-actions .btn-ghost{border:1px solid var(--line);background:var(--white);color:var(--navy);border-radius:7px;padding:6px 12px;font-size:12.5px;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background 0.15s ease,color 0.15s ease,border-color 0.15s ease;}
+.coord-actions button:hover,.coord-actions .btn-ghost:hover{background:var(--navy);color:var(--white);border-color:var(--navy);}
+.coord-actions button:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+@media (max-width:700px){.coord-table{font-size:12.5px;}.coord-table th,.coord-table td{padding:8px 10px;}.coord-table-wrap{max-height:none;}}
+ 
+/* ===== TEMA UNIVERSIDAD ===== */
+:root{--navy:#0B1B3F;--navy-dark:#06112B;--blue:#1E4FA3;--blue-pale:#EEF3FA;--blue-pale2:#DCE6F5;--ink:#0F1A33;--ink-soft:#5A6B85;--line:#D9E2F0;--available:#1E4FA3;--available-bg:#E3ECFA;--occupied:#6B7685;--occupied-bg:#E9ECF1;--mine:#0B1B3F;--mine-bg:#DCE3F2;--gold:#FFC61A;--gold-dark:#E0A800;}
+#login-screen{background:radial-gradient(circle at 18% 22%,rgba(255,198,26,0.12),transparent 42%),radial-gradient(circle at 85% 85%,rgba(46,111,217,0.25),transparent 45%),linear-gradient(135deg,#06112B,#0B1B3F 55%,#12285A);}
+.id-card{box-shadow:0 30px 70px -20px rgba(6,17,43,0.75);border:1px solid rgba(255,255,255,0.15);}
+.id-card::before{background:var(--gold);}
+.badge{background:var(--navy);border-color:var(--gold);}
+#app-screen,#coordinador-screen{background:radial-gradient(rgba(11,27,63,0.05) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(#F7F9FC,#EDF1F7);background-attachment:fixed;}
+header.topbar{background:linear-gradient(120deg,#06112B 0%,#0B1B3F 60%,#12285A 100%);border-bottom:4px solid var(--gold);border-image:none;}
+#coordinador-screen header.topbar{box-shadow:0 8px 20px -12px rgba(6,17,43,0.8);}
+.brand .mark{border-color:var(--gold);}
+.user-chip .avatar{background:var(--gold);color:var(--navy);}
+#coordinador-screen header.topbar .btn-ghost:hover{background:var(--gold);border-color:var(--gold);color:var(--navy);}
+#coordinador-screen header.topbar .btn-ghost:focus-visible{outline:2px solid var(--gold);}
+.btn-primary{background:linear-gradient(135deg,#0B1B3F,#12285A);}
+.btn-primary:hover{background:linear-gradient(135deg,#12285A,#1E3A7A);}
+.btn-confirm{background:var(--gold);color:var(--navy);font-weight:700;}
+.btn-confirm:hover{background:var(--gold-dark);}
+.cal-day.today{border-color:var(--gold);}
+.coord-table-wrap{box-shadow:0 14px 30px -20px rgba(11,27,63,0.5);}
+.coord-table th{color:var(--navy);background:var(--blue-pale);}
+.coord-table tbody tr:nth-child(even) td,.coord-table tbody tr:nth-child(even) td:last-child{background:#F7F9FC;}
+.coord-table th:last-child,.coord-table td:last-child{position:static;box-shadow:none;}
+.coord-table td:nth-child(2){white-space:nowrap;}
+.room-card:hover{box-shadow:0 10px 22px -10px rgba(11,27,63,0.35);}
+.modal-backdrop{background:rgba(6,17,43,0.6);backdrop-filter:blur(3px);}
+.toast{background:var(--navy);border:1px solid var(--gold);box-shadow:0 10px 24px -8px rgba(6,17,43,0.6);}
+.coord-actions button:nth-child(3):last-child{color:#B42318;border-color:#FECDCA;background:#FEF3F2;}
+.coord-actions button:nth-child(3):last-child:hover{background:#B42318;color:#fff;border-color:#B42318;}
+#coordinador-screen .btn-primary{width:auto;min-width:220px;padding:10px 26px;border-radius:8px;}
+.jornada-badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:500;}
+.jornada-badge.diurna{background:#FFF3C4;color:#7A5B00;}
+.jornada-badge.nocturna{background:#DCE3F2;color:#0B1B3F;}
+ 
+/* ===== POR PISOS E INTERFAZ MAS INTUITIVA ===== */
+.room-grid.por-pisos{display:block;}
+.floor-section{margin-bottom:26px;}
+.floor-title{display:flex;align-items:center;gap:10px;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--line);font-family:'Oswald',sans-serif;font-size:16px;letter-spacing:0.04em;text-transform:uppercase;color:var(--navy);font-weight:600;}
+.floor-title small{margin-left:auto;font-family:'IBM Plex Sans',sans-serif;font-size:12px;letter-spacing:0;text-transform:none;color:var(--ink-soft);font-weight:400;}
+.floor-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:var(--navy);color:var(--white);font-size:15px;border-bottom:3px solid var(--gold,#FFC61A);}
+.floor-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:14px;}
+ 
+/* Etiqueta de piso en la tabla del coordinador */
+.coord-table td[data-piso]::after{content:attr(data-piso);display:block;margin-top:2px;font-size:10.5px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-soft);}
+ 
+/* Estados mas claros */
+.room-status.available::before{content:'\25CF  ';}
+.room-status.occupied::before{content:'\25CF  ';}
+.room-card{min-height:92px;}
+ 
+/* ===== BARRA SUPERIOR PREMIUM (solo estilos, no toca la lógica) ===== */
+@keyframes topbarIn{from{opacity:0;transform:translateY(-12px);}to{opacity:1;transform:translateY(0);}}
+@keyframes goldFlow{0%{background-position:0% 50%;}100%{background-position:200% 50%;}}
+ 
+#app-screen header.topbar,
+#coordinador-screen header.topbar{
+  position:relative;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px 20px;
+  padding:16px 28px 18px;
+  border-bottom:none;
+  background:
+    radial-gradient(600px 160px at 92% -20%, rgba(255,198,26,0.20), transparent 70%),
+    radial-gradient(500px 180px at 5% 120%, rgba(46,111,217,0.35), transparent 70%),
+    linear-gradient(120deg,#06112B 0%,#0B1B3F 55%,#14306B 100%);
+  box-shadow:0 14px 34px -14px rgba(6,17,43,0.85), inset 0 1px 0 rgba(255,255,255,0.08);
+  animation:topbarIn .5s ease both;
+}
+#app-screen header.topbar{position:sticky;top:0;z-index:20;}
+#coordinador-screen header.topbar{position:sticky;top:0;z-index:20;}
+ 
+/* línea dorada animada inferior */
+header.topbar::after{
+  content:'';
+  position:absolute;left:0;right:0;bottom:0;height:4px;
+  background:linear-gradient(90deg,#E0A800,#FFC61A,#FFE38A,#FFC61A,#E0A800);
+  background-size:200% 100%;
+  animation:goldFlow 6s linear infinite;
+  box-shadow:0 0 14px rgba(255,198,26,0.55);
+}
+ 
+/* ---------- Marca ---------- */
+header.topbar .brand{gap:14px;}
+header.topbar .brand .mark{
+  width:46px;height:46px;font-size:16px;color:var(--white);
+  border:2px solid var(--gold,#FFC61A);
+  background:linear-gradient(145deg,#12285A,#06112B);
+  box-shadow:0 0 0 4px rgba(255,198,26,0.14), 0 8px 18px -6px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15);
+  letter-spacing:0.02em;
+}
+header.topbar .brand-text h2{
+  font-size:20px;letter-spacing:0.06em;line-height:1.1;
+  text-shadow:0 2px 10px rgba(0,0,0,0.35);
+}
+header.topbar .brand-text span{
+  display:block;margin-top:3px;font-size:11.5px;
+  color:#FFE38A;letter-spacing:0.08em;text-transform:uppercase;opacity:.9;
+}
+ 
+/* ---------- Bandeja de acciones (fila propia, ordenada) ---------- */
+header.topbar .user-chip{
+  flex:1 1 100%;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  padding:9px 12px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:16px;
+  backdrop-filter:blur(6px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.08), 0 10px 22px -16px rgba(0,0,0,0.8);
+}
+ 
+/* Usuario */
+header.topbar .user-chip .avatar{
+  width:34px;height:34px;font-size:13px;
+  background:linear-gradient(145deg,#FFE38A,#FFC61A);
+  color:var(--navy);
+  box-shadow:0 0 0 3px rgba(255,198,26,0.25), 0 6px 12px -4px rgba(0,0,0,0.5);
+}
+header.topbar .user-chip #user-name{
+  font-size:14px;font-weight:500;letter-spacing:0.01em;
+  margin-right:6px;padding-right:14px;
+  border-right:1px solid rgba(255,255,255,0.18);
+}
+ 
+/* ---------- Botones ---------- */
+#app-screen header.topbar .btn-ghost,
+#coordinador-screen header.topbar .btn-ghost{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 15px;
+  font-size:13px;font-weight:500;letter-spacing:0.01em;
+  color:var(--white);
+  background:linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.05));
+  border:1px solid rgba(255,255,255,0.20);
+  border-radius:999px;
+  box-shadow:0 4px 10px -6px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12);
+  cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
+}
+#app-screen header.topbar .btn-ghost:hover,
+#coordinador-screen header.topbar .btn-ghost:hover{
+  background:linear-gradient(180deg,#FFE38A,#FFC61A);
+  color:var(--navy);
+  border-color:#FFC61A;
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px -8px rgba(255,198,26,0.65), 0 0 0 3px rgba(255,198,26,0.18);
+}
+#app-screen header.topbar .btn-ghost:active,
+#coordinador-screen header.topbar .btn-ghost:active{transform:translateY(0);box-shadow:0 3px 8px -4px rgba(0,0,0,0.6);}
+#app-screen header.topbar .btn-ghost:focus-visible,
+#coordinador-screen header.topbar .btn-ghost:focus-visible{outline:2px solid #FFC61A;outline-offset:2px;}
+ 
+/* Iconos (decorativos, no cambian el texto ni los ids) */
+header.topbar .btn-ghost::before{font-size:14px;line-height:1;}
+#notif-btn::before,#coord-notif-btn::before{content:'🔔';}
+#cal-btn::before,#coord-cal-btn::before{content:'📅';}
+#my-reports-btn::before{content:'⚠️';}
+#damage-admin-btn::before,#coord-dmg-btn::before{content:'🔧';}
+#my-bookings-btn::before,#coord-reservas-btn::before{content:'📋';}
+#coord-rep-btn::before{content:'📊';}
+#coord-bulk-btn::before{content:'📥';}
+#coord-inv-btn::before{content:'📦';}
+#coord-sw-btn::before{content:'💻';}
+#coord-blk-btn::before{content:'🚫';}
+#coord-ev-btn::before{content:'🎉';}
+#coord-susp-btn::before{content:'⏸️';}
+#coord-rules-btn::before{content:'⚙️';}
+#coord-users-btn::before{content:'👥';}
+ 
+/* Botón Salir: separado a la derecha y en tono rojo suave */
+#app-screen header.topbar #logout-btn,
+#coordinador-screen header.topbar #coord-logout-btn{
+  margin-left:auto;
+  color:#FFD9D9;
+  background:linear-gradient(180deg,rgba(229,72,77,0.28),rgba(229,72,77,0.12));
+  border-color:rgba(255,140,140,0.45);
+}
+#app-screen header.topbar #logout-btn:hover,
+#coordinador-screen header.topbar #coord-logout-btn:hover{
+  background:linear-gradient(180deg,#F26468,#E5484D);
+  color:#fff;border-color:#E5484D;
+  box-shadow:0 10px 20px -8px rgba(229,72,77,0.7), 0 0 0 3px rgba(229,72,77,0.2);
+}
+#logout-btn::before,#coord-logout-btn::before{content:'⎋';font-size:15px;}
+ 
+/* ---------- Responsive ---------- */
+@media (max-width:700px){
+  #app-screen header.topbar,
+  #coordinador-screen header.topbar{padding:14px 16px 16px;}
+  header.topbar .brand-text h2{font-size:17px;}
+  header.topbar .user-chip{padding:8px;gap:6px;}
+  header.topbar .user-chip #user-name{border-right:none;padding-right:0;flex:1;}
+  #app-screen header.topbar .btn-ghost,
+  #coordinador-screen header.topbar .btn-ghost{flex:1 1 calc(50% - 6px);justify-content:center;padding:9px 10px;font-size:12.5px;}
+}
+@media (prefers-reduced-motion:reduce){
+  header.topbar,header.topbar::after{animation:none;}
+  #app-screen header.topbar .btn-ghost:hover,
+  #coordinador-screen header.topbar .btn-ghost:hover{transform:none;}
+}
+
+/* ===== AJUSTES BARRA SUPERIOR (parche) - pegar al FINAL de styles.css ===== */
+ 
+/* 1) Movil: el nombre de usuario ocupa el resto de la primera linea
+      (sin esto se aprieta junto al primer boton y el texto se parte) */
+@media (max-width:700px){
+  header.topbar .user-chip #user-name{flex:1 1 calc(100% - 50px);min-width:0;}
+}
+ 
+/* 2) Pantallas chicas: la barra es muy alta (muchos botones), asi que NO queda fija.
+      En escritorio sigue fija como antes. */
+@media (max-width:900px){
+  #app-screen header.topbar,
+  #coordinador-screen header.topbar{position:relative;}
+}
+ 
+/* 3) Icono de Salir: la puerta se ve igual en todos los sistemas
+      (el simbolo anterior puede salir como cuadrito en algunos equipos) */
+#logout-btn::before,#coord-logout-btn::before{content:'🚪';font-size:14px;}
+ 
+
+/* ============================================================
+   ===== PREMIUM FINAL · INICIO (bloque agregado al final) =====
+   Solo estilos. No cambia ids, clases ni lógica.
+   Para quitarlo todo: borra desde esta línea hasta "FIN PREMIUM FINAL".
+   ============================================================ */
+
+@keyframes px-fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes px-fade{from{opacity:0;}to{opacity:1;}}
+@keyframes px-pop{from{opacity:0;transform:translateY(12px) scale(.96);}to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes px-orbA{from{transform:translate(0,0) scale(1);}to{transform:translate(90px,70px) scale(1.15);}}
+@keyframes px-orbB{from{transform:translate(0,0) scale(1);}to{transform:translate(-80px,-60px) scale(1.12);}}
+@keyframes px-shine{from{left:-75%;}to{left:140%;}}
+@keyframes px-pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+@keyframes px-toast{from{opacity:0;transform:translate(-50%,16px);}to{opacity:1;transform:translate(-50%,0);}}
+
+/* ---- Base ---- */
+html{scroll-behavior:smooth;}
+::selection{background:var(--gold);color:var(--navy);}
+*{scrollbar-width:thin;scrollbar-color:#9FB2D4 transparent;}
+
+/* ---- Login (también aplica a confirmar.html y restablecer.html) ---- */
+#login-screen{position:relative;overflow:hidden;}
+#login-screen::before,#login-screen::after{content:'';position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;}
+#login-screen::before{width:420px;height:420px;left:-120px;top:-120px;background:rgba(255,198,26,0.22);animation:px-orbA 14s ease-in-out infinite alternate;}
+#login-screen::after{width:480px;height:480px;right:-160px;bottom:-160px;background:rgba(46,111,217,0.40);animation:px-orbB 16s ease-in-out infinite alternate;}
+.id-card{position:relative;z-index:1;animation:px-pop .55s cubic-bezier(.2,.8,.2,1) backwards;}
+.id-card h1{background:linear-gradient(90deg,#0B1B3F,#1E4FA3);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--navy);}
+.login-hint a{color:var(--blue);text-decoration:none;font-weight:500;transition:color .15s ease;}
+.login-hint a:hover{color:var(--navy);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;}
+
+/* Campos del login/registro (incluye el select del registro) */
+.field select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:7px;background:var(--white);font-size:14px;font-family:inherit;color:var(--ink);}
+.field input,.field select{transition:border-color .15s ease,box-shadow .15s ease;}
+.field input:focus,.field select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px rgba(255,198,26,0.22);}
+#register-error{color:#B23B3B;font-size:13px;margin:-6px 0 14px;min-height:16px;}
+#recover-msg{color:var(--ink-soft);font-size:13px;margin:-6px 0 14px;min-height:16px;}
+
+/* ---- Botones ---- */
+.btn-primary{position:relative;overflow:hidden;transition:transform .15s ease,box-shadow .2s ease,background .15s ease;}
+.btn-primary::after{content:'';position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.38),transparent);transform:skewX(-20deg);pointer-events:none;}
+.btn-primary:hover::after{animation:px-shine .8s ease;}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 22px -10px rgba(6,17,43,.6);}
+.btn-primary:active{transform:translateY(0);}
+/* "Cancelar" vuelve a verse gris (antes quedaba igual al botón principal) */
+.btn-primary.btn-muted{background:linear-gradient(135deg,#7A8699,#5A6B85);color:var(--white);}
+.btn-primary.btn-muted:hover{background:linear-gradient(135deg,#5A6B85,#47566E);}
+
+/* ---- Filtros del lateral ---- */
+aside.filters{background:rgba(255,255,255,.65);backdrop-filter:blur(6px);}
+.chip-option{transition:background .15s ease,transform .15s ease,box-shadow .15s ease;}
+.chip-option:hover{transform:translateX(3px);}
+.chip-option.active{background:linear-gradient(135deg,#0B1B3F,#14306B);box-shadow:inset 3px 0 0 var(--gold),0 8px 16px -10px rgba(6,17,43,.7);}
+.filter-group input[type="text"],.filter-group input[type="number"],.filter-group select{width:100%;padding:8px 9px;margin-bottom:8px;border:1px solid var(--line);border-radius:6px;font-family:inherit;font-size:13.5px;background:var(--white);color:var(--ink);}
+.filter-group input[type="text"],.filter-group input[type="number"],.filter-group input[type="date"],.filter-group select{transition:border-color .15s ease,box-shadow .15s ease;}
+.filter-group input[type="text"]:focus,.filter-group input[type="number"]:focus,.filter-group input[type="date"]:focus,.filter-group select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,198,26,.22);}
+.filter-group input[type="checkbox"]{accent-color:var(--navy);}
+.modal > select{width:100%;padding:9px 10px;margin-bottom:12px;border:1px solid var(--line);border-radius:6px;font-family:inherit;font-size:13.5px;background:var(--white);color:var(--ink);}
+
+/* ---- Títulos y leyenda ---- */
+.content-head h2::after{content:'';display:block;width:46px;height:3px;margin-top:6px;border-radius:3px;background:var(--gold);}
+.legend{display:inline-flex;gap:18px;background:var(--white);border:1px solid var(--line);border-radius:999px;padding:8px 18px;box-shadow:0 8px 18px -14px rgba(11,27,63,.4);}
+.dot{width:10px;height:10px;}
+.dot.available{box-shadow:0 0 0 3px rgba(30,79,163,.15);}
+.dot.occupied{box-shadow:0 0 0 3px rgba(107,118,133,.18);}
+.dot.mine{box-shadow:0 0 0 3px rgba(11,27,63,.15);}
+.floor-title{border-bottom:2px solid;border-image:linear-gradient(90deg,var(--gold),var(--line) 35%) 1;}
+.floor-num{box-shadow:0 6px 14px -6px rgba(11,27,63,.6);}
+
+/* ---- Tarjetas de salones ---- */
+.room-card{border-radius:14px;background:linear-gradient(180deg,#FFFFFF,#F7F9FD);box-shadow:0 1px 2px rgba(11,27,63,.06),0 8px 20px -14px rgba(11,27,63,.35);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;animation:px-fadeUp .45s ease backwards;}
+.room-card:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 16px 30px -14px rgba(11,27,63,.45);}
+.room-card:nth-child(2){animation-delay:.04s;}
+.room-card:nth-child(3){animation-delay:.08s;}
+.room-card:nth-child(4){animation-delay:.12s;}
+.room-card:nth-child(5){animation-delay:.16s;}
+.room-card:nth-child(6){animation-delay:.20s;}
+.room-card:nth-child(7){animation-delay:.24s;}
+.room-card:nth-child(8){animation-delay:.28s;}
+.room-code{font-size:24px;line-height:1.1;}
+.room-status{border-radius:999px;padding:4px 11px;}
+.room-status.available::before{display:inline-block;animation:px-pulse 2s ease-in-out infinite;}
+
+/* ---- Modales ---- */
+.modal-backdrop{animation:px-fade .2s ease;}
+.modal{border-radius:16px;border-top:4px solid var(--gold);box-shadow:0 30px 70px -20px rgba(6,17,43,.7);animation:px-pop .3s cubic-bezier(.2,.8,.2,1) backwards;}
+.modal-section.open{animation:px-fadeUp .3s ease backwards;}
+.modal-close{width:32px;height:32px;border-radius:50%;transition:background .15s ease,color .15s ease;}
+.modal-close:hover{background:var(--blue-pale);color:var(--navy);}
+.booking-form input,.booking-form select{transition:border-color .15s ease,box-shadow .15s ease;}
+.booking-form input:focus,.booking-form select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,198,26,.22);}
+
+/* Fila "Repetir cada semana" ordenada */
+.booking-form .row-btns{flex-wrap:wrap;}
+#rep-row{flex:1 1 100%;display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:12.5px;text-transform:none;letter-spacing:0;margin:0 0 4px;color:var(--ink);}
+#rep-row input[type="checkbox"]{width:auto;margin:0;accent-color:var(--navy);}
+#rep-row input[type="number"]{margin:0;padding:6px 8px;}
+
+/* ---- Calendario y horarios ---- */
+.cal-day{font-weight:500;transition:transform .12s ease,background .12s ease,box-shadow .12s ease,color .12s ease;}
+.cal-day:not(.disabled):not(.empty):hover{background:var(--navy);color:var(--white);transform:scale(1.08);box-shadow:0 8px 16px -8px rgba(6,17,43,.6);}
+.cal-day.today{background:#FFF6D6;border:2px solid var(--gold);font-weight:700;}
+.cal-day.disabled{color:#B4BFD3;}
+.cal-day.disabled:hover{background:transparent;}
+.cal-nav-btn{transition:background .15s ease,transform .12s ease;}
+.cal-nav-btn:not(:disabled):hover{background:var(--gold);transform:scale(1.06);}
+.slot-row{background:var(--white);transition:border-color .15s ease,box-shadow .15s ease;}
+.slot-row:hover{border-color:var(--gold);box-shadow:0 8px 16px -12px rgba(11,27,63,.4);}
+.slot-btn{border-radius:999px;padding:6px 14px;transition:transform .12s ease,filter .12s ease;}
+.slot-btn:not(.disabled):hover{transform:translateY(-1px);filter:brightness(1.1);}
+
+/* ---- Detalles finos ---- */
+.toast{border-radius:999px;padding:12px 22px;animation:px-toast .35s cubic-bezier(.2,.8,.2,1);}
+.empty-state{background:rgba(255,255,255,.7);border-radius:14px;}
+.coord-table td{transition:background .15s ease;}
+
+/* ---- Móvil ---- */
+@media (max-width:700px){
+  #login-screen::before{width:260px;height:260px;}
+  #login-screen::after{width:300px;height:300px;}
+  .legend{border-radius:14px;}
+  .room-code{font-size:22px;}
+}
+
+/* ---- Accesibilidad: sin animaciones si el sistema lo pide ---- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
+}
+
+/* ===== FIN PREMIUM FINAL ===== */
+
+
+/* ============================================================
+   ===== PANEL COORDINADOR · MENÚ LATERAL · INICIO =====
+   Solo estilos. No cambia ids, clases ni lógica.
+   Para quitarlo: borra desde esta línea hasta "FIN MENÚ LATERAL".
+   ============================================================ */
+
+@keyframes px-sideIn{from{opacity:0;transform:translateX(-26px);}to{opacity:1;transform:translateX(0);}}
+@keyframes px-goldV{0%{background-position:50% 0%;}100%{background-position:50% 200%;}}
+
+/* Orden lógico de los botones: consulta, recursos, administración */
+#coord-reservas-btn{order:1;}
+#coord-cal-btn{order:2;}
+#coord-notif-btn{order:3;}
+#coord-rep-btn{order:4;}
+#coord-inv-btn{order:5;}
+#coord-sw-btn{order:6;}
+#coord-blk-btn{order:7;}
+#coord-dmg-btn{order:8;}
+#coord-ev-btn{order:9;}
+#coord-bulk-btn{order:10;}
+#coord-susp-btn{order:11;}
+#coord-rules-btn{order:12;}
+#coord-users-btn{order:13;}
+#coord-logout-btn{order:99;}
+
+/* Título de la sección y botón "Agregar clase" destacado */
+#coordinador-screen .content::before{content:'Horario fijo de clases';display:block;font-family:'Oswald',sans-serif;font-size:26px;letter-spacing:.04em;text-transform:uppercase;color:var(--navy);padding-bottom:10px;margin-bottom:16px;background:linear-gradient(var(--gold),var(--gold)) left bottom/52px 3px no-repeat;}
+#coord-new-btn{background:linear-gradient(135deg,#FFE38A,#FFC61A);color:var(--navy);font-weight:700;box-shadow:0 10px 22px -12px rgba(224,168,0,.8);}
+#coord-new-btn:hover{background:linear-gradient(135deg,#FFC61A,#E0A800);}
+
+/* Columna de acciones de la tabla: vuelve a ser celda real (alinea las líneas de cada fila) */
+.coord-table td.coord-actions{display:table-cell;white-space:nowrap;}
+.coord-table td.coord-actions button{margin-right:8px;}
+.coord-table td.coord-actions button:last-child{margin-right:0;}
+
+/* ---------- ESCRITORIO: menú lateral fijo ---------- */
+@media (min-width:901px){
+  #coordinador-screen header.topbar{
+    position:fixed;top:0;bottom:0;left:0;width:248px;height:auto;z-index:30;
+    flex-direction:column;flex-wrap:nowrap;align-items:stretch;justify-content:flex-start;
+    gap:20px;padding:24px 14px 18px;overflow-y:auto;overflow-x:hidden;
+    background:
+      radial-gradient(320px 220px at 100% 0%,rgba(255,198,26,.20),transparent 70%),
+      radial-gradient(300px 260px at 0% 100%,rgba(46,111,217,.35),transparent 70%),
+      linear-gradient(180deg,#0B1B3F 0%,#06112B 100%);
+    box-shadow:12px 0 36px -18px rgba(6,17,43,.9),inset -1px 0 0 rgba(255,255,255,.06);
+    animation:px-sideIn .55s cubic-bezier(.2,.8,.2,1) backwards;
+  }
+  /* la línea dorada pasa de abajo al borde derecho */
+  #coordinador-screen header.topbar::after{
+    left:auto;top:0;right:0;bottom:0;width:4px;height:auto;
+    background:linear-gradient(180deg,#E0A800,#FFC61A,#FFE38A,#FFC61A,#E0A800);
+    background-size:100% 200%;
+    animation:px-goldV 6s linear infinite;
+  }
+  #coordinador-screen header.topbar .brand{padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.12);}
+  #coordinador-screen header.topbar .brand-text h2{font-size:17px;}
+  #coordinador-screen header.topbar .brand-text span{font-size:10.5px;}
+
+  /* la bandeja de botones se vuelve una lista vertical */
+  #coordinador-screen header.topbar .user-chip{
+    flex:1 1 auto;min-height:0;
+    flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:5px;
+    padding:0;background:none;border:none;border-radius:0;box-shadow:none;backdrop-filter:none;
+  }
+  #coordinador-screen header.topbar .btn-ghost{
+    flex:0 0 auto;width:100%;justify-content:flex-start;gap:12px;text-align:left;
+    padding:8px 12px;font-size:13.5px;border-radius:12px;
+    background:transparent;border:1px solid transparent;box-shadow:none;
+  }
+  #coordinador-screen header.topbar .btn-ghost:hover{
+    transform:translateX(4px);
+    background:linear-gradient(90deg,#FFE38A,#FFC61A);color:var(--navy);border-color:#FFC61A;
+    box-shadow:0 10px 20px -10px rgba(255,198,26,.6);
+  }
+  #coordinador-screen header.topbar .btn-ghost::before{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.09);font-size:15px;
+    transition:background .15s ease;
+  }
+  #coordinador-screen header.topbar .btn-ghost:hover::before{background:rgba(6,17,43,.14);}
+
+  /* separación entre grupos y "Salir" al fondo */
+  #coord-rep-btn{margin-bottom:14px;}
+  #coord-bulk-btn{margin-top:14px;}
+  #coordinador-screen header.topbar #coord-logout-btn{margin:auto 0 0;}
+
+  /* contenido a la derecha del menú, tabla más alta */
+  #coordinador-screen .content{margin-left:248px;}
+  #coordinador-screen .coord-table-wrap{max-height:calc(100vh - 200px);}
+}
+
+/* ---------- PANTALLAS CHICAS: barra superior en una sola fila deslizable ---------- */
+@media (max-width:900px){
+  #coordinador-screen header.topbar .user-chip{flex-wrap:nowrap;overflow-x:auto;padding:8px;gap:8px;}
+  #coordinador-screen header.topbar .btn-ghost{flex:0 0 auto;white-space:nowrap;padding:8px 14px;}
+}
+
+/* ===== FIN MENÚ LATERAL ===== */
+
+
+/* ============================================================
+   ===== LOGO + DETALLES + ENTRADA · INICIO =====
+   Solo estilos. No cambia ids, clases ni lógica.
+   Para quitarlo: borra desde esta línea hasta "FIN LOGO + ENTRADA".
+   ============================================================ */
+
+@property --px-ang{syntax:'<angle>';initial-value:0deg;inherits:false;}
+@keyframes px-spin{to{--px-ang:360deg;}}
+@keyframes px-halo{0%{transform:scale(.94);opacity:.8;}100%{transform:scale(1.28);opacity:0;}}
+@keyframes px-breathe{from{transform:scale(1);}to{transform:scale(1.07);}}
+@keyframes px-borderflow{from{background-position:0 0,0 0;}to{background-position:0 0,300% 0;}}
+@keyframes px-curtain{0%{opacity:1;visibility:visible;}62%{opacity:1;visibility:visible;}100%{opacity:0;visibility:hidden;}}
+
+/* ---------- 1) LOGO S2 con anillo dorado giratorio y halo ---------- */
+#app-screen header.topbar .brand .mark,
+#coordinador-screen header.topbar .brand .mark,
+.badge{
+  position:relative;
+  border:3px solid transparent;
+  background:
+    radial-gradient(circle at 30% 25%,#1B3A7A 0%,#0B1B3F 55%,#06112B 100%) padding-box,
+    conic-gradient(from var(--px-ang,0deg),#FFC61A,#FFF3C4,#E0A800,#FFC61A 50%,#E0A800,#FFE38A,#FFC61A) border-box;
+  color:#FFE38A;
+  text-shadow:0 0 12px rgba(255,198,26,.65);
+  letter-spacing:.04em;
+  box-shadow:0 0 0 5px rgba(255,198,26,.12),0 12px 26px -8px rgba(255,198,26,.45),inset 0 2px 6px rgba(255,255,255,.18);
+  animation:px-spin 6s linear infinite;
+}
+#app-screen header.topbar .brand .mark::after,
+#coordinador-screen header.topbar .brand .mark::after,
+.badge::after{
+  content:'';position:absolute;inset:-9px;border-radius:50%;
+  border:1px solid rgba(255,198,26,.55);pointer-events:none;
+  animation:px-halo 3.2s ease-out infinite;
+}
+#app-screen header.topbar .brand .mark,
+#coordinador-screen header.topbar .brand .mark{width:56px;height:56px;font-size:20px;}
+.badge{width:72px;height:72px;font-size:25px;animation:px-spin 6s linear infinite,px-fade .6s ease backwards;}
+
+/* ---------- 2) DETALLES ARRIBA A LA DERECHA (panel del coordinador) ---------- */
+#coordinador-screen .content{position:relative;z-index:1;}
+
+/* anillos concéntricos con brillo dorado en la esquina */
+#coordinador-screen::after{
+  content:'';position:fixed;top:-280px;right:-280px;width:680px;height:680px;
+  border-radius:50%;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(circle,rgba(255,198,26,.20) 0%,rgba(255,198,26,0) 55%),
+    repeating-radial-gradient(circle,transparent 0 52px,rgba(30,79,163,.13) 52px 53px);
+  box-shadow:inset 0 0 0 1px rgba(255,198,26,.35);
+  animation:px-breathe 9s ease-in-out infinite alternate;
+}
+/* etiqueta con borde dorado que fluye */
+#coordinador-screen .content::after{
+  content:'🎓  Gestión académica · Sede II';
+  position:absolute;top:30px;right:32px;
+  padding:10px 20px;border-radius:999px;border:1.5px solid transparent;
+  font-family:'IBM Plex Sans',sans-serif;font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--navy);white-space:nowrap;
+  background:
+    linear-gradient(#FFFFFF,#F4F7FC) padding-box,
+    linear-gradient(90deg,#E0A800,#FFE38A,#E0A800) border-box;
+  background-size:100% 100%,300% 100%;
+  box-shadow:0 12px 26px -16px rgba(11,27,63,.55);
+  animation:px-borderflow 5s linear infinite;
+}
+
+/* ---------- 3) ENTRADA: cortina de bienvenida + login escalonado ---------- */
+#app-screen::before,
+#coordinador-screen::before{
+  content:'Agenda de Aulas';
+  position:fixed;inset:0;z-index:90;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Oswald',sans-serif;font-size:38px;letter-spacing:.35em;text-transform:uppercase;
+  color:#FFE38A;text-shadow:0 0 24px rgba(255,198,26,.45);
+  background:
+    linear-gradient(90deg,transparent,#FFC61A,transparent) center calc(50% + 40px)/240px 2px no-repeat,
+    radial-gradient(circle at 20% 20%,rgba(255,198,26,.14),transparent 45%),
+    radial-gradient(circle at 80% 85%,rgba(46,111,217,.30),transparent 45%),
+    linear-gradient(135deg,#06112B,#0B1B3F 55%,#12285A);
+  animation:px-curtain 1.7s ease forwards;
+}
+
+/* el contenido de la tarjeta del login entra en cascada */
+.id-card > :not(.badge){animation:px-fadeUp .5s ease backwards;}
+.id-card > :nth-child(2){animation-delay:.10s;}
+.id-card > :nth-child(3){animation-delay:.16s;}
+.id-card > :nth-child(4){animation-delay:.22s;}
+.id-card > :nth-child(5){animation-delay:.28s;}
+.id-card > :nth-child(6){animation-delay:.34s;}
+.id-card > :nth-child(7){animation-delay:.40s;}
+.id-card > :nth-child(8){animation-delay:.46s;}
+.id-card::after{content:'';position:absolute;left:18%;right:18%;bottom:-1px;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,#FFC61A,transparent);}
+
+/* ---------- Menú lateral: se adapta a la altura de la pantalla ---------- */
+@media (min-width:901px){
+  /* altura normal (800 a 999 px): logo al lado del título, botones compactos */
+  #coordinador-screen header.topbar{gap:16px;padding:20px 14px 16px;}
+  #coordinador-screen header.topbar .user-chip{gap:4px;}
+  #coordinador-screen header.topbar .btn-ghost{padding:6px 12px;}
+  #coordinador-screen header.topbar .btn-ghost::before{width:28px;height:28px;}
+  #coord-rep-btn{margin-bottom:10px;}
+  #coord-bulk-btn{margin-top:10px;}
+}
+/* pantallas altas (1000 px o más): logo grande y centrado */
+@media (min-width:901px) and (min-height:1000px){
+  #coordinador-screen header.topbar{gap:22px;padding:26px 14px 18px;}
+  #coordinador-screen header.topbar .brand{flex-direction:column;align-items:center;text-align:center;gap:16px;padding-bottom:22px;}
+  #coordinador-screen header.topbar .brand .mark{width:80px;height:80px;font-size:28px;}
+  #coordinador-screen header.topbar .brand-text h2{font-size:18px;letter-spacing:.08em;}
+  #coordinador-screen header.topbar .user-chip{gap:5px;}
+  #coordinador-screen header.topbar .btn-ghost{padding:8px 12px;}
+  #coordinador-screen header.topbar .btn-ghost::before{width:30px;height:30px;}
+  #coord-rep-btn{margin-bottom:14px;}
+  #coord-bulk-btn{margin-top:14px;}
+}
+/* pantallas bajas (menos de 800 px): todo más ajustado para que "Salir" se vea sin scroll */
+@media (min-width:901px) and (max-height:799px){
+  #coordinador-screen header.topbar{gap:12px;padding:16px 12px 12px;}
+  #coordinador-screen header.topbar .brand{padding-bottom:12px;gap:10px;}
+  #coordinador-screen header.topbar .brand .mark{width:44px;height:44px;font-size:16px;}
+  #coordinador-screen header.topbar .brand-text h2{font-size:15px;}
+  #coordinador-screen header.topbar .brand-text span{display:none;}
+  #coordinador-screen header.topbar .user-chip{gap:3px;}
+  #coordinador-screen header.topbar .btn-ghost{padding:4px 10px;font-size:13px;}
+  #coordinador-screen header.topbar .btn-ghost::before{width:24px;height:24px;font-size:13px;}
+  #coord-rep-btn{margin-bottom:8px;}
+  #coord-bulk-btn{margin-top:8px;}
+  #coordinador-screen .content::before{font-size:23px;}
+}
+
+/* ---------- Pantallas chicas: se ocultan los adornos ---------- */
+@media (max-width:1100px){
+  #coordinador-screen .content::after{display:none;}
+}
+@media (max-width:900px){
+  #coordinador-screen::after{display:none;}
+  #app-screen header.topbar .brand .mark,
+  #coordinador-screen header.topbar .brand .mark{width:48px;height:48px;font-size:17px;}
+}
+
+/* ===== FIN LOGO + ENTRADA ===== */
+
+
+/* ============================================================
+   ===== AJUSTES 2 · INICIO =====
+   1) Menú parejo  2) Esquina azul y dorado  3) Logo  4) Filas tipo tarjeta
+   Solo estilos. No cambia ids, clases ni lógica.
+   Para quitarlo: borra desde esta línea hasta "FIN AJUSTES 2".
+   ============================================================ */
+
+@keyframes px-orbit{to{transform:rotate(360deg);}}
+
+/* ---------- 1) MENÚ LATERAL: todos los botones con la misma altura y el mismo espacio ---------- */
+@media (min-width:901px){
+  #coordinador-screen header.topbar .user-chip{justify-content:space-between;}
+  #coordinador-screen header.topbar .btn-ghost{flex:1 1 0;min-height:34px;max-height:60px;}
+  #coord-rep-btn,#coord-bulk-btn{margin:0;}
+  #coordinador-screen header.topbar #coord-logout-btn{margin:0;}
+}
+
+/* ---------- 2) ESQUINA SUPERIOR DERECHA: azul con dorado fuerte ---------- */
+#coordinador-screen::after{
+  background:
+    radial-gradient(circle,rgba(30,79,163,.30) 0%,rgba(30,79,163,.10) 38%,rgba(30,79,163,0) 62%),
+    radial-gradient(circle,transparent 0 238px,rgba(255,198,26,.95) 239px 242px,transparent 243px),
+    radial-gradient(circle,transparent 0 180px,rgba(255,198,26,.50) 181px 182.5px,transparent 183.5px),
+    repeating-radial-gradient(circle,transparent 0 40px,rgba(30,79,163,.28) 40px 41.5px);
+  box-shadow:inset 0 0 0 2px rgba(255,198,26,.70);
+}
+#coordinador-screen .content::after{
+  content:'🎓  Gestión académica · Sede II';
+  padding:12px 26px;
+  border:2px solid transparent;
+  color:#FFFFFF;font-size:12px;letter-spacing:.16em;
+  background:
+    linear-gradient(135deg,#0B1B3F,#1E4FA3) padding-box,
+    linear-gradient(90deg,#B98600,#FFC61A,#FFE38A,#FFC61A,#B98600) border-box;
+  background-size:100% 100%,300% 100%;
+  box-shadow:0 14px 30px -12px rgba(11,27,63,.8),0 0 0 4px rgba(255,198,26,.14),0 0 26px rgba(255,198,26,.28);
+}
+
+/* ---------- 3) LOGO MÁS GRANDE Y DEFINIDO (con anillo interior y satélite dorado) ---------- */
+#app-screen header.topbar .brand .mark,
+#coordinador-screen header.topbar .brand .mark,
+.badge{
+  border-width:4px;
+  font-weight:700;
+  box-shadow:
+    inset 0 0 0 3px #0B1B3F,
+    inset 0 0 0 4px rgba(255,198,26,.80),
+    inset 0 6px 14px rgba(255,255,255,.12),
+    0 0 0 6px rgba(255,198,26,.14),
+    0 14px 30px -8px rgba(255,198,26,.55);
+  text-shadow:0 1px 0 #B98600,0 2px 0 #8A6400,0 0 16px rgba(255,198,26,.65);
+}
+#app-screen header.topbar .brand .mark::before,
+#coordinador-screen header.topbar .brand .mark::before,
+.badge::before{
+  content:'';position:absolute;inset:-9px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 50% 5px,#FFE38A 0 3px,#FFC61A 3px 4.5px,transparent 5.5px);
+  filter:drop-shadow(0 0 5px rgba(255,198,26,.9));
+  animation:px-orbit 5s linear infinite;
+}
+#app-screen header.topbar .brand .mark{width:62px;height:62px;font-size:22px;}
+.badge{width:84px;height:84px;font-size:29px;}
+@media (min-width:901px){
+  #coordinador-screen header.topbar .brand .mark{width:68px;height:68px;font-size:24px;}
+}
+@media (min-width:901px) and (min-height:1000px){
+  #coordinador-screen header.topbar .brand .mark{width:96px;height:96px;font-size:34px;}
+}
+@media (min-width:901px) and (max-height:799px){
+  #coordinador-screen header.topbar .brand .mark{width:52px;height:52px;font-size:19px;}
+}
+@media (max-width:900px){
+  #app-screen header.topbar .brand .mark,
+  #coordinador-screen header.topbar .brand .mark{width:52px;height:52px;font-size:19px;}
+}
+
+/* ---------- 4) FILAS DE LA TABLA TIPO TARJETA ---------- */
+#coordinador-screen .coord-table-wrap{
+  background:#EEF3FA;
+  border:1px solid #D5E0F2;border-top:10px solid #EEF3FA;
+  border-radius:16px;padding:0 12px 6px;
+  box-shadow:0 18px 36px -24px rgba(11,27,63,.55);
+}
+#coordinador-screen .coord-table{border-collapse:separate;border-spacing:0 10px;}
+
+/* cabecera azul con línea dorada (el sombreado tapa el hueco entre cabecera y filas) */
+#coordinador-screen .coord-table thead th{
+  background:linear-gradient(135deg,#0B1B3F,#14306B);
+  color:#FFFFFF;border:none;padding:13px 14px;
+  box-shadow:inset 0 -3px 0 #FFC61A,0 10px 0 #EEF3FA;
+}
+#coordinador-screen .coord-table thead th:first-child{border-radius:12px 0 0 12px;}
+#coordinador-screen .coord-table thead th:last-child{border-radius:0 12px 12px 0;}
+
+/* cada fila = una tarjeta blanca con franja dorada a la izquierda */
+#coordinador-screen .coord-table tbody td{
+  background:#FFFFFF;border:none;
+  border-top:1px solid #E1E9F6;border-bottom:1px solid #E1E9F6;
+  padding:13px 14px;vertical-align:middle;
+  box-shadow:0 10px 16px -14px rgba(11,27,63,.45);
+  transition:background .15s ease,box-shadow .2s ease,border-color .15s ease;
+}
+#coordinador-screen .coord-table tbody td:first-child{
+  border-left:1px solid #E1E9F6;border-radius:14px 0 0 14px;padding-left:18px;
+  box-shadow:inset 5px 0 0 var(--gold),0 10px 16px -14px rgba(11,27,63,.45);
+  font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;letter-spacing:.02em;color:var(--navy);
+}
+#coordinador-screen .coord-table tbody td:last-child{border-right:1px solid #E1E9F6;border-radius:0 14px 14px 0;}
+#coordinador-screen .coord-table tbody td:nth-child(2){font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;color:var(--navy);}
+#coordinador-screen .coord-table tbody td:nth-child(5){font-weight:700;color:var(--blue);}
+#coordinador-screen .coord-table td[data-piso]::after{font-family:'IBM Plex Sans',sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.06em;color:#B98600;}
+
+/* al pasar el mouse: la tarjeta se ilumina y la franja dorada se ensancha */
+#coordinador-screen .coord-table tbody tr:hover td{
+  background:#F2F7FF;border-top-color:#C9D8F2;border-bottom-color:#C9D8F2;
+  box-shadow:0 16px 24px -16px rgba(11,27,63,.55);
+}
+#coordinador-screen .coord-table tbody tr:hover td:first-child{
+  border-left-color:#C9D8F2;
+  box-shadow:inset 8px 0 0 var(--gold),0 16px 24px -16px rgba(11,27,63,.55);
+}
+#coordinador-screen .coord-table tbody tr:hover td:last-child{border-right-color:#C9D8F2;}
+
+/* ===== FIN AJUSTES 2 ===== */
+
+
+/* ============================================================
+   ===== AJUSTES 3 · INICIO =====
+   1) Esquina minimalista  2) Espacio junto al logo  3) Letra del menú
+   4) Animación de las filas  5) Cabecera de la tabla fija completa
+   Solo estilos. No cambia ids, clases ni lógica.
+   Para quitarlo: borra desde esta línea hasta "FIN AJUSTES 3".
+   ============================================================ */
+
+/* ---------- 1) ESQUINA MINIMALISTA Y SIMÉTRICA: una línea dorada que se desvanece hacia ambos lados ---------- */
+#coordinador-screen::after{
+  top:0;right:0;bottom:auto;left:248px;width:auto;height:3px;border-radius:0;
+  background:linear-gradient(90deg,transparent 0%,#FFC61A 50%,transparent 100%);
+  box-shadow:0 8px 22px -4px rgba(255,198,26,.28);
+  animation:none;
+}
+
+/* ---------- 2) MÁS ESPACIO ENTRE EL LOGO Y EL TÍTULO ---------- */
+@media (min-width:901px){
+  #coordinador-screen header.topbar .brand{gap:28px;padding-left:6px;}
+}
+@media (min-width:901px) and (min-height:1000px){
+  #coordinador-screen header.topbar .brand{gap:18px;padding-left:0;}
+}
+@media (min-width:901px) and (max-height:799px){
+  #coordinador-screen header.topbar .brand{gap:20px;padding-left:4px;}
+}
+
+/* ---------- 3) LETRA DEL MENÚ UN POCO MÁS GRANDE ---------- */
+@media (min-width:901px){
+  #coordinador-screen header.topbar .btn-ghost{font-size:14.5px;}
+}
+@media (min-width:901px) and (min-height:1000px){
+  #coordinador-screen header.topbar .btn-ghost{font-size:15px;}
+}
+@media (min-width:901px) and (max-height:799px){
+  #coordinador-screen header.topbar .btn-ghost{font-size:14px;}
+}
+
+/* ---------- 4) ANIMACIÓN DE LAS FILAS: se deslizan con rebote, se iluminan y se enmarcan en dorado ---------- */
+#coordinador-screen .coord-table tbody tr{transition:transform .32s cubic-bezier(.34,1.56,.64,1);}
+#coordinador-screen .coord-table tbody tr:hover{transform:translate(8px,-2px);}
+#coordinador-screen .coord-table tbody tr:hover td{
+  background:#F0F5FF;
+  border-top-color:#F2C94C;border-bottom-color:#F2C94C;
+  box-shadow:0 18px 28px -16px rgba(11,27,63,.6);
+}
+#coordinador-screen .coord-table tbody tr:hover td:first-child{
+  border-left-color:#F2C94C;color:var(--blue);
+  box-shadow:inset 10px 0 0 var(--gold),0 18px 28px -16px rgba(11,27,63,.6);
+}
+#coordinador-screen .coord-table tbody tr:hover td:last-child{border-right-color:#F2C94C;}
+#coordinador-screen .coord-table tbody td:first-child{transition:background .15s ease,box-shadow .2s ease,border-color .15s ease,color .2s ease;}
+
+/* ---------- 5) CABECERA COMPLETA FIJA (incluida la parte sobre los 3 botones) ---------- */
+#coordinador-screen .coord-table thead th{position:sticky;top:0;z-index:3;}
+
+/* ===== FIN AJUSTES 3 ===== */
+
+
+/* ============================================================
+   ===== MEJORAS SOLO CSS · INICIO =====
+   Solo estilos. No cambia HTML, JS, ids ni la conexión con Supabase.
+   Para quitarlo todo: borra desde esta línea hasta "FIN MEJORAS SOLO CSS".
+   ============================================================ */
+
+@keyframes mj-rowIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ---------- 1) ACCIONES POR FILA: iconos en lugar de botones con texto ----------
+   El texto del botón sigue en el HTML (font-size:0 lo oculta a la vista pero
+   los lectores de pantalla lo siguen leyendo como nombre del botón). */
+#coordinador-screen .coord-table td.coord-actions{white-space:nowrap;}
+#coordinador-screen .coord-table td.coord-actions button{
+  position:relative;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;padding:0;margin-right:4px;
+  font-size:0;line-height:0;color:transparent;
+  background:transparent;border:1px solid transparent;border-radius:8px;
+  opacity:.5;
+  transition:opacity .15s ease,background .15s ease,border-color .15s ease;
+}
+#coordinador-screen .coord-table td.coord-actions button:last-child{margin-right:0;}
+
+/* icono (trazo 1.75px) pintado con máscara: toma el color de fondo */
+#coordinador-screen .coord-table td.coord-actions button::before{
+  content:'';width:18px;height:18px;
+  background-color:#94a3b8;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-position:center;mask-position:center;
+  -webkit-mask-size:contain;mask-size:contain;
+  transition:background-color .15s ease;
+}
+#coordinador-screen .coord-table td.coord-actions .coord-move-class::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3 4 7l4 4'/%3E%3Cpath d='M4 7h16'/%3E%3Cpath d='m16 21 4-4-4-4'/%3E%3Cpath d='M20 17H4'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3 4 7l4 4'/%3E%3Cpath d='M4 7h16'/%3E%3Cpath d='m16 21 4-4-4-4'/%3E%3Cpath d='M20 17H4'/%3E%3C/svg%3E");}
+#coordinador-screen .coord-table td.coord-actions .coord-edit::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z'/%3E%3Cpath d='m15 5 4 4'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z'/%3E%3Cpath d='m15 5 4 4'/%3E%3C/svg%3E");}
+#coordinador-screen .coord-table td.coord-actions .coord-delete::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6'/%3E%3Cpath d='M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2'/%3E%3Cpath d='M10 11v6'/%3E%3Cpath d='M14 11v6'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6'/%3E%3Cpath d='M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2'/%3E%3Cpath d='M10 11v6'/%3E%3Cpath d='M14 11v6'/%3E%3C/svg%3E");}
+
+/* reposo 0.5 · fila con el mouse 1 */
+#coordinador-screen .coord-table tbody tr:hover td.coord-actions button,
+#coordinador-screen .coord-table td.coord-actions button:focus-visible{opacity:1;}
+
+/* hover: editar y cambiar salón en azul; borrar en rojo con fondo muy suave */
+#coordinador-screen .coord-table td.coord-actions button:hover{background:rgba(30,79,163,.08);border-color:transparent;color:transparent;}
+#coordinador-screen .coord-table td.coord-actions button:hover::before{background-color:#1E4FA3;}
+#coordinador-screen .coord-table td.coord-actions .coord-delete,
+#coordinador-screen .coord-table td.coord-actions .coord-delete:hover{border-color:transparent;}
+#coordinador-screen .coord-table td.coord-actions .coord-delete{background:transparent;color:transparent;}
+#coordinador-screen .coord-table td.coord-actions .coord-delete:hover{background:rgba(220,38,38,.08);}
+#coordinador-screen .coord-table td.coord-actions .coord-delete:hover::before{background-color:#dc2626;}
+
+/* tooltip (debajo del icono para no chocar con la cabecera fija) */
+#coordinador-screen .coord-table td.coord-actions button::after{
+  position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);
+  padding:4px 9px;border-radius:6px;
+  background:#0F172A;color:#FFFFFF;
+  font-family:'IBM Plex Sans',sans-serif;font-size:11.5px;font-weight:500;line-height:1.3;letter-spacing:0;text-transform:none;
+  white-space:nowrap;pointer-events:none;z-index:20;
+  opacity:0;transition:opacity .15s ease;
+}
+#coordinador-screen .coord-table td.coord-actions .coord-move-class::after{content:'Cambiar salón';}
+#coordinador-screen .coord-table td.coord-actions .coord-edit::after{content:'Editar clase';}
+#coordinador-screen .coord-table td.coord-actions .coord-delete::after{content:'Borrar clase';}
+#coordinador-screen .coord-table td.coord-actions button:hover::after,
+#coordinador-screen .coord-table td.coord-actions button:focus-visible::after{opacity:1;}
+
+/* ---------- 2) COLUMNA "ACCIONES" (el título estaba vacío en el HTML) ---------- */
+#coordinador-screen .coord-table thead th:last-child::after{content:'Acciones';}
+
+/* ---------- 3) CABECERA FIJA + SCROLL DE PÁGINA COMPLETA ----------
+   Se quita el scroll interno de la tarjeta; la cabecera queda pegada arriba. */
+#coordinador-screen .coord-table-wrap{max-height:none;overflow:visible;}
+@media (max-width:900px){
+  /* en pantallas chicas la tabla ancha necesita su scroll horizontal */
+  #coordinador-screen .coord-table-wrap{overflow-x:auto;}
+}
+
+/* ---------- 4) "GESTIÓN ACADÉMICA · SEDE II": texto pequeño bajo el título ----------
+   --t = tamaño del título; con él se calcula dónde cae el subtítulo. */
+#coordinador-screen .content{--t:26px;}
+#coordinador-screen .content::before{font-size:var(--t);line-height:1.2;padding-bottom:30px;}
+@media (min-width:901px) and (max-height:799px){
+  #coordinador-screen .content{--t:23px;}
+}
+#coordinador-screen .content::after{
+  content:'Gestión académica · Sede II';
+  display:block;
+  position:absolute;top:calc(24px + var(--t) * 1.2 + 4px);left:24px;right:auto;
+  padding:0;border:none;border-radius:0;
+  background:none;box-shadow:none;animation:none;
+  font-family:'IBM Plex Sans',sans-serif;font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;
+  color:#3A4B6C;
+}
+
+/* ---------- 5) FILAS: aparecen en cascada al cargar (máx. 12 filas, 40 ms entre cada una) ---------- */
+#coordinador-screen .coord-table tbody tr:nth-child(-n+12){animation:mj-rowIn .35s ease backwards;}
+#coordinador-screen .coord-table tbody tr:nth-child(2){animation-delay:.04s;}
+#coordinador-screen .coord-table tbody tr:nth-child(3){animation-delay:.08s;}
+#coordinador-screen .coord-table tbody tr:nth-child(4){animation-delay:.12s;}
+#coordinador-screen .coord-table tbody tr:nth-child(5){animation-delay:.16s;}
+#coordinador-screen .coord-table tbody tr:nth-child(6){animation-delay:.20s;}
+#coordinador-screen .coord-table tbody tr:nth-child(7){animation-delay:.24s;}
+#coordinador-screen .coord-table tbody tr:nth-child(8){animation-delay:.28s;}
+#coordinador-screen .coord-table tbody tr:nth-child(9){animation-delay:.32s;}
+#coordinador-screen .coord-table tbody tr:nth-child(10){animation-delay:.36s;}
+#coordinador-screen .coord-table tbody tr:nth-child(11){animation-delay:.40s;}
+#coordinador-screen .coord-table tbody tr:nth-child(12){animation-delay:.44s;}
+
+/* ---------- 6) HORAS: cifras de ancho fijo para que se alineen ---------- */
+#coordinador-screen .coord-table tbody td:nth-child(2){font-variant-numeric:tabular-nums;}
+
+/* ---------- 7) BOTÓN "+ AGREGAR CLASE": degradado amarillo → ámbar ---------- */
+#coordinador-screen #coord-new-btn{
+  background:linear-gradient(135deg,#FBBF24,#F59E0B);
+  color:#0B1B3F;
+  transition:transform .15s ease,box-shadow .2s ease,filter .15s ease;
+}
+#coordinador-screen #coord-new-btn:hover{
+  background:linear-gradient(135deg,#FBBF24,#F59E0B);
+  filter:brightness(1.08);transform:translateY(-2px);
+  box-shadow:0 14px 26px -12px rgba(245,158,11,.9);
+}
+#coordinador-screen #coord-new-btn:active{filter:brightness(.97);transform:translateY(1px) scale(.985);box-shadow:0 4px 10px -6px rgba(245,158,11,.8);}
+
+/* ---------- 8) MODALES: aparecen con fade + escala 0.96→1 en 180 ms ---------- */
+.modal{animation-duration:.18s;}
+.modal-backdrop{animation-duration:.18s;}
+
+/* ---------- 9) FOCO VISIBLE: anillo dorado de 2px (con halo oscuro para que se vea sobre fondo claro) ---------- */
+#coordinador-screen :is(button,a,[tabindex]):focus-visible,
+.modal-backdrop :is(button,a,[tabindex]):focus-visible{
+  outline:2px solid #FBBF24;outline-offset:2px;
+  box-shadow:0 0 0 5px rgba(11,27,63,.85);
+}
+
+/* ===== FIN MEJORAS SOLO CSS ===== */
+
+
+/* ============================================================
+   ===== MEJORAS SOLO CSS 2 · INICIO =====
+   1) Logo circular  2) Adorno simétrico arriba a la derecha
+   3) Campos de formulario  4) Degradado animado de fondo
+   Solo estilos. No cambia HTML, JS, ids ni la conexión con Supabase.
+   Para quitarlo: borra desde esta línea hasta "FIN MEJORAS SOLO CSS 2".
+   ============================================================ */
+
+@keyframes mj-breathe{0%,100%{opacity:.72;}50%{opacity:1;}}
+
+/* ---------- 1) LOGO: círculo perfecto, un poco más grande, con aire a la derecha y abajo ----------
+   flex:none + aspect-ratio evitan que el menú lo aplaste (eso lo volvía ovalado). */
+header.topbar .brand .mark,.badge{flex:0 0 auto;aspect-ratio:1/1;}
+header.topbar .brand-text{min-width:0;}
+@media (min-width:901px){
+  #coordinador-screen header.topbar .brand{gap:18px;padding:6px 4px 32px 10px;margin-bottom:6px;}
+  #coordinador-screen header.topbar .brand .mark{width:76px;height:76px;font-size:27px;}
+  #coordinador-screen header.topbar .brand-text h2{font-size:14px;letter-spacing:.03em;}
+}
+/* pantallas altas: logo centrado arriba del título */
+@media (min-width:901px) and (min-height:1000px){
+  #coordinador-screen header.topbar .brand{gap:22px;padding:6px 6px 36px;margin-bottom:8px;}
+  #coordinador-screen header.topbar .brand .mark{width:104px;height:104px;font-size:37px;}
+  #coordinador-screen header.topbar .brand-text h2{font-size:18px;}
+}
+/* pantallas bajas: más compacto, pero sin pegar el logo */
+@media (min-width:901px) and (max-height:799px){
+  #coordinador-screen header.topbar .brand{gap:22px;padding:4px 6px 22px 10px;margin-bottom:2px;}
+  #coordinador-screen header.topbar .brand .mark{width:58px;height:58px;font-size:21px;}
+  #coordinador-screen header.topbar .brand-text h2{font-size:14px;}
+}
+
+/* ---------- 2) ESQUINA SUPERIOR DERECHA: adorno simétrico (espejo respecto al centro) ----------
+   Rombo calado con punto al centro, a cada lado: línea dorada, dos puntos y dos líneas azules cortas.
+   Se dibuja con los pseudo-elementos de la tarjeta de la tabla y queda detrás de ella. */
+#coordinador-screen .coord-table-wrap::before,
+#coordinador-screen .coord-table-wrap::after{
+  content:'';position:absolute;z-index:-1;pointer-events:none;
+  animation:mj-breathe 6s ease-in-out infinite;
+}
+#coordinador-screen .coord-table-wrap::before{
+  top:34px;right:44px;width:300px;height:28px;
+  background:
+    /* línea dorada principal (mitad izquierda y mitad derecha) */
+    linear-gradient(90deg,rgba(224,168,0,0),#E0A800) left 0 top 13px/108px 1.5px no-repeat,
+    linear-gradient(270deg,rgba(224,168,0,0),#E0A800) right 0 top 13px/108px 1.5px no-repeat,
+    /* líneas azules cortas, arriba y abajo */
+    linear-gradient(90deg,rgba(30,79,163,0),rgba(30,79,163,.55)) left 40px top 5px/68px 1px no-repeat,
+    linear-gradient(270deg,rgba(30,79,163,0),rgba(30,79,163,.55)) right 40px top 5px/68px 1px no-repeat,
+    linear-gradient(90deg,rgba(30,79,163,0),rgba(30,79,163,.38)) left 40px top 22px/68px 1px no-repeat,
+    linear-gradient(270deg,rgba(30,79,163,0),rgba(30,79,163,.38)) right 40px top 22px/68px 1px no-repeat,
+    /* dos puntos dorados por lado, hacia el rombo */
+    radial-gradient(circle,#E0A800 0 1.6px,transparent 2.1px) left 111px top 11px/5px 5px no-repeat,
+    radial-gradient(circle,#E0A800 0 1.6px,transparent 2.1px) left 120px top 11px/5px 5px no-repeat,
+    radial-gradient(circle,#E0A800 0 1.6px,transparent 2.1px) right 111px top 11px/5px 5px no-repeat,
+    radial-gradient(circle,#E0A800 0 1.6px,transparent 2.1px) right 120px top 11px/5px 5px no-repeat;
+}
+#coordinador-screen .coord-table-wrap::after{
+  top:33px;right:179px;width:30px;height:30px;
+  background:linear-gradient(135deg,#FFE38A,#E0A800);
+  clip-path:path(evenodd,'M15 0L30 15L15 30L0 15Z M15 4.5L25.5 15L15 25.5L4.5 15Z M15 11L19 15L15 19L11 15Z');
+}
+@media (max-width:1100px){
+  #coordinador-screen .coord-table-wrap::before,
+  #coordinador-screen .coord-table-wrap::after{display:none;}
+}
+
+/* ---------- 3) CAMPOS PARA RELLENAR: minimalistas, con detalles ----------
+   Aplica a login/registro, filtros, y todos los formularios dentro de modales. */
+.field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]),
+.booking-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]),
+.filter-group input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]),
+.modal input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]),
+.field select,
+.booking-form select,
+.filter-group select,
+.modal select,
+.modal textarea{
+  background-color:#FBFCFE;
+  border:1px solid #D3DEEE;
+  border-radius:10px;
+  color:var(--ink);
+  box-shadow:inset 0 1px 2px rgba(11,27,63,.05);
+  transition:border-color .18s ease,box-shadow .2s ease,background-color .18s ease;
+}
+.field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]),
+.booking-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]),
+.filter-group input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]),
+.modal input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]){padding-left:13px;padding-right:13px;}
+.field select,
+.booking-form select,
+.filter-group select,
+.modal select{
+  -webkit-appearance:none;appearance:none;
+  padding-left:13px;padding-right:38px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235A6B85' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 13px center;background-size:14px;
+  cursor:pointer;
+}
+.field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):hover:not(:disabled):not(:focus),
+.booking-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):hover:not(:disabled):not(:focus),
+.filter-group input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):hover:not(:disabled):not(:focus),
+.modal input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):hover:not(:disabled):not(:focus),
+.field select:hover:not(:disabled):not(:focus),
+.booking-form select:hover:not(:disabled):not(:focus),
+.filter-group select:hover:not(:disabled):not(:focus),
+.modal select:hover:not(:disabled):not(:focus),
+.modal textarea:hover:not(:disabled):not(:focus){border-color:#B3C3DF;background-color:#FFFFFF;}
+.field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):focus,
+.booking-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):focus,
+.filter-group input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):focus,
+.modal input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):focus,
+.field select:focus,
+.booking-form select:focus,
+.filter-group select:focus,
+.modal select:focus,
+.modal textarea:focus{
+  outline:none;
+  border-color:#FFC61A;
+  background-color:#FFFFFF;
+  box-shadow:0 0 0 4px rgba(255,198,26,.24),0 10px 20px -14px rgba(11,27,63,.45);
+}
+.field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):disabled,
+.booking-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):disabled,
+.filter-group input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):disabled,
+.modal input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):disabled,
+.field select:disabled,
+.booking-form select:disabled,
+.filter-group select:disabled,
+.modal select:disabled,
+.modal textarea:disabled{background-color:#F1F4F9;color:var(--ink-soft);cursor:not-allowed;box-shadow:none;}
+input::placeholder,textarea::placeholder{color:#8E9DB8;opacity:1;}
+
+/* aviso de error discreto (solo después de que la persona toca el campo) */
+.field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):user-invalid,
+.booking-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):user-invalid,
+.filter-group input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):user-invalid,
+.modal input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]):user-invalid{border-color:#E5484D;box-shadow:0 0 0 3px rgba(229,72,77,.12);}
+
+/* iconos pequeños dentro de algunos campos */
+#login-user,#reg-email,#rec-email,#ue-email{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='20' height='16' x='2' y='4' rx='2'/%3E%3Cpath d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 13px center;background-size:17px;padding-left:40px;}
+#login-pass,#reg-pass,#reg-pass2,#ue-pass{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='18' height='11' x='3' y='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 13px center;background-size:17px;padding-left:40px;}
+#f-search{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 12px center;background-size:16px;padding-left:36px;}
+
+/* selector de fecha: icono del calendario más discreto */
+input[type="date"]::-webkit-calendar-picker-indicator{opacity:.55;cursor:pointer;transition:opacity .15s ease;}
+input[type="date"]::-webkit-calendar-picker-indicator:hover{opacity:1;}
+
+/* etiquetas: trazo dorado antes del texto y color que se oscurece al enfocar el campo */
+.field > label,
+.booking-form label:not([style]):not(#rep-row){
+  display:flex;align-items:center;gap:8px;
+  font-weight:600;letter-spacing:.07em;color:#4B5D7C;
+  transition:color .18s ease;
+}
+.field > label::before,
+.booking-form label:not([style]):not(#rep-row)::before{
+  content:'';flex:0 0 auto;width:10px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,#FFC61A,#E0A800);
+}
+.field:focus-within > label,
+.booking-form label:has(+ :focus){color:var(--navy);}
+
+/* ---------- 4) DEGRADADO ANIMADO EN TODO EL FONDO (gradient flow) ----------
+   Degradado en azul rey, 3 veces más ancho que la pantalla, detrás de todo el contenido.
+   Se anima background-position para que se desplace de lado a lado y los tonos se mezclen.
+   El degradado de fondo de las pantallas pasa al <body> para que el efecto se vea sobre él. */
+body{
+  background:radial-gradient(rgba(11,27,63,.05) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(#F7F9FC,#EDF1F7);
+  background-attachment:fixed;
+}
+#app-screen,#coordinador-screen{background:none;}
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  /* solo azul rey (más intenso); los colores terminan igual que empiezan, así el vaivén no tiene saltos */
+  background:linear-gradient(100deg,
+    rgba(40,82,232,.38) 0%,
+    rgba(65,105,225,.22) 25%,
+    rgba(48,92,240,.42) 50%,
+    rgba(65,105,225,.22) 75%,
+    rgba(40,82,232,.38) 100%);
+  background-size:300% 100%;
+  background-position:0% 50%;
+  animation:mj-flow 9s ease-in-out infinite alternate;
+}
+@keyframes mj-flow{from{background-position:0% 50%;}to{background-position:100% 50%;}}
+
+/* ===== FIN MEJORAS SOLO CSS 2 ===== */

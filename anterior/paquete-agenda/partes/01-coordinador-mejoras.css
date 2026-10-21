@@ -1,0 +1,23 @@
+
+/* ===== MEJORAS VISUALES - PANEL DEL COORDINADOR ===== */
+#coordinador-screen{background:var(--blue-pale);}
+#coordinador-screen header.topbar{position:sticky;top:0;z-index:20;box-shadow:0 6px 16px -10px rgba(8,44,88,0.7);}
+#coordinador-screen header.topbar .btn-ghost{border-radius:999px;padding:7px 15px;font-size:13px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.28);transition:background 0.15s ease,border-color 0.15s ease,transform 0.12s ease;}
+#coordinador-screen header.topbar .btn-ghost:hover{background:var(--blue);border-color:var(--blue);transform:translateY(-1px);}
+#coordinador-screen header.topbar .btn-ghost:focus-visible{outline:2px solid var(--white);outline-offset:2px;}
+.coord-table-wrap{background:var(--white);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 26px -20px rgba(11,61,119,0.45);max-height:calc(100vh - 250px);overflow:auto;}
+.coord-table{font-size:13.5px;border-collapse:separate;border-spacing:0;}
+.coord-table th,.coord-table td{padding:10px 14px;white-space:normal;vertical-align:middle;border-bottom:1px solid var(--line);}
+.coord-table th{position:sticky;top:0;z-index:2;background:var(--blue-pale);color:var(--navy);font-size:11px;letter-spacing:0.06em;white-space:nowrap;}
+.coord-table tbody tr:nth-child(even) td{background:#F6F9FE;}
+.coord-table tbody tr:hover td{background:var(--blue-pale2);}
+.coord-table tbody tr:last-child td{border-bottom:none;}
+.coord-table th:last-child,.coord-table td:last-child{position:sticky;right:0;background:var(--white);box-shadow:-10px 0 10px -10px rgba(11,61,119,0.28);}
+.coord-table th:last-child{background:var(--blue-pale);z-index:3;}
+.coord-table tbody tr:nth-child(even) td:last-child{background:#F6F9FE;}
+.coord-table tbody tr:hover td:last-child{background:var(--blue-pale2);}
+.coord-actions{gap:8px;}
+.coord-actions button,.coord-actions .btn-ghost{border:1px solid var(--line);background:var(--white);color:var(--navy);border-radius:7px;padding:6px 12px;font-size:12.5px;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background 0.15s ease,color 0.15s ease,border-color 0.15s ease;}
+.coord-actions button:hover,.coord-actions .btn-ghost:hover{background:var(--navy);color:var(--white);border-color:var(--navy);}
+.coord-actions button:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+@media (max-width:700px){.coord-table{font-size:12.5px;}.coord-table th,.coord-table td{padding:8px 10px;}.coord-table-wrap{max-height:none;}}
