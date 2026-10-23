@@ -385,7 +385,7 @@
   function syncRecursoOptions(){
     var s = el('f-recurso'), tipos = [];
     RECURSOS.forEach(function(r){ if(tipos.indexOf(r.tipo) < 0) tipos.push(r.tipo); });
-    tipos.sort();
+    tipos.sort(function(x, y){ return x.localeCompare(y); });
     if(s.options.length === tipos.length + 1) return;
     var cur = s.value;
     s.innerHTML = '<option value="">Cualquier recurso</option>' + tipos.map(function(t){ return '<option>' + escapeHtml(t) + '</option>'; }).join('');
@@ -1304,7 +1304,7 @@
   }
 
   function slotsForRoom(room){
-    return room.tipo === 'lab' ? LAB_ONLY_SLOTS : SLOTS_TARDE.slice().sort();
+    return room.tipo === 'lab' ? LAB_ONLY_SLOTS : SLOTS_TARDE.slice().sort(function(x, y){ return x.localeCompare(y); });
   }
 
   // Texto corto de tipo/piso para las tarjetas y el modal
