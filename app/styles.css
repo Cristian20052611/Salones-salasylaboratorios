@@ -1652,3 +1652,14 @@ body::before{
 @keyframes mj-flow{from{background-position:0% 50%;}to{background-position:100% 50%;}}
 
 /* ===== FIN MEJORAS SOLO CSS 2 ===== */
+
+/* Software instalado por salon */
+.sw-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:8px;}
+.sw-chip{display:flex; align-items:center; gap:8px; background:var(--white); border:1px solid var(--line); border-radius:8px; padding:7px 9px;}
+.sw-logo{width:26px; height:26px; object-fit:contain; flex:0 0 26px;}
+.sw-logo-empty{display:inline-block; border-radius:6px; background:var(--blue-pale2);}
+.sw-name{font-size:12.5px; color:var(--navy); font-weight:500; line-height:1.2;}
+.sw-row-info{display:flex; align-items:center; gap:10px;}
+.sw-pick{display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:6px; margin-top:8px;}
+.sw-pick-item{display:flex; align-items:center; gap:8px; border:1px solid var(--line); border-radius:8px; padding:6px 9px; cursor:pointer; background:var(--white);}
+.sw-pick-item input{margin:0;}

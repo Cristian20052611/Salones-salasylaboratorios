@@ -69,7 +69,7 @@
   ];
 
   // Único bloque realmente libre para agendar en los salones normales: 12:00–18:00
-  var SLOTS_TARDE = [
+  var SLOTS_TARDE = ['08:00-09:00','09:00-10:00','10:00-11:00','11:00-12:00','18:00-19:00','19:00-20:00','20:00-21:00','21:00-22:00',
     '12:00-13:00','13:00-14:00','14:00-15:00','15:00-16:00','16:00-17:00','17:00-18:00'
   ];
   // Los laboratorios se agendan solo en el bloque nocturno
@@ -87,6 +87,7 @@
   function blockOccupied(room, dateStr, blockKey){
     return fixedClassesFor(room, blockKey).length > 0;
   }
+  function slotFixed(room, slot){ var h = parseInt(slot.split(':')[0], 10); return HORARIO_FIJO.some(function(c){ if(c.code !== room.code) return false; var p = c.block.split('-'); return parseInt(p[0],10) <= h && parseInt(p[1],10) > h; }); }
   function blockSubject(room, dateStr, blockKey){
     var clases = fixedClassesFor(room, blockKey);
     if(clases.length === 0) return '';
@@ -1303,7 +1304,7 @@
   }
 
   function slotsForRoom(room){
-    return room.tipo === 'lab' ? LAB_ONLY_SLOTS : SLOTS_TARDE;
+    return room.tipo === 'lab' ? LAB_ONLY_SLOTS : SLOTS_TARDE.slice().sort();
   }
 
   // Texto corto de tipo/piso para las tarjetas y el modal
@@ -1399,7 +1400,7 @@
         var allOcc = fixedBlocks.length > 0 && occStates.every(function(v){return v;});
         var cls = allOcc ? 'occupied' : (anyOcc ? 'mixed' : 'available');
         tab.className = 'placard-tab ' + cls;
-        var statusText = allOcc ? 'Ocupado en clases fijas' : (anyOcc ? 'Ocupado en parte del día' : 'Sin clases fijas');
+        var statusText = allOcc ? 'Ocupado ' + fixedBlocks.map(function(b){return b.label.replace(/ /g,'');}).join(' y ') : (anyOcc ? 'Ocupado ' + fixedBlocks.filter(function(b,i){return occStates[i];}).map(function(b){return b.label.replace(/ /g,'');}).join(' y ') : 'Sin clases fijas');
         body.innerHTML =
           '<div class="room-code mono">' + escapeHtml(room.label) + '</div>' +
           '<div class="room-type">' + roomTypeLabel(room) + '</div>' +
@@ -1631,7 +1632,10 @@
       row.className = 'slot-row';
       var timeEl = '<span class="slot-time">' + slot + '</span>';
       var right;
-      if(!b && blockedAt(activeRoom, state.calDate, slot)){
+      if(!b && slotFixed(activeRoom, slot)){
+        row.classList.add('locked');
+        right = '<span class="slot-state">Clase fija</span> <button class="slot-btn disabled" disabled>Ocupado</button>';
+      } else if(!b && blockedAt(activeRoom, state.calDate, slot)){
         row.classList.add('locked');
         right = '<span class="slot-state">Bloqueado</span> <button class="slot-btn disabled" disabled>Bloqueado</button>';
       } else if(!b){

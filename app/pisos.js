@@ -83,7 +83,7 @@
     try{
       document.querySelectorAll('.room-grid').forEach(buildGrid);
       tagTable();
-    }catch(e){}
+    }catch(e){ /* si falla el agrupado, las tarjetas se ven sin agrupar */ }
     if(obs) obs.observe(document.body,{childList:true,subtree:true});
   }
 
