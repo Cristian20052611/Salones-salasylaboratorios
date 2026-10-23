@@ -92,7 +92,7 @@
 
       <div class="filter-group">
         <h3>Fecha a consultar</h3>
-        <input type="date" id="date-picker">
+        <input type="date" id="date-picker" aria-label="Fecha">
       </div>
 
       <div class="filter-group">
@@ -109,11 +109,11 @@
 
       <div class="filter-group">
         <h3>Buscar y filtrar</h3>
-        <input type="text" id="f-search" placeholder="Nombre o código">
-        <select id="f-recurso"><option value="">Cualquier recurso</option></select>
-        <select id="f-software"><option value="">Cualquier software</option></select>
-        <input type="number" id="f-min" min="1" placeholder="Mín. equipos operativos">
-        <input type="number" id="f-aforo" min="1" placeholder="Aforo mínimo">
+        <input type="text" id="f-search" aria-label="Buscar por nombre o código" placeholder="Nombre o código">
+        <select id="f-recurso" aria-label="Filtrar por recurso"><option value="">Cualquier recurso</option></select>
+        <select id="f-software" aria-label="Filtrar por software"><option value="">Cualquier software</option></select>
+        <input type="number" id="f-min" min="1" aria-label="Mínimo de equipos operativos" placeholder="Mín. equipos operativos">
+        <input type="number" id="f-aforo" min="1" aria-label="Aforo mínimo" placeholder="Aforo mínimo">
         <label style="font-size:13px;"><input type="checkbox" id="f-ok"> Solo espacios sin bloqueo</label>
       </div>
 
@@ -203,7 +203,7 @@
       <button class="modal-close" id="mybookings-close">✕</button>
     </div>
     <div class="modal-sub">Estas son tus reservas. Puedes modificarlas o cancelarlas mientras sigan activas.</div>
-    <select id="mybookings-filter"><option value="">Todos los estados</option><option value="pendiente">Pendientes</option><option value="confirmada">Confirmadas</option><option value="rechazada">Rechazadas</option><option value="cancelada">Canceladas</option><option value="no_asistio">No asistió</option><option value="finalizada">Finalizadas</option></select>
+    <select id="mybookings-filter" aria-label="Filtrar por estado"><option value="">Todos los estados</option><option value="pendiente">Pendientes</option><option value="confirmada">Confirmadas</option><option value="rechazada">Rechazadas</option><option value="cancelada">Canceladas</option><option value="no_asistio">No asistió</option><option value="finalizada">Finalizadas</option></select>
     <div class="slot-list" id="mybookings-list"></div>
     <div class="empty-state" id="mybookings-empty" style="display:none;">Todavía no tienes reservas.</div>
   </div>
@@ -241,7 +241,7 @@
 <div class="modal-backdrop" id="serie-backdrop"><div class="modal"><div class="modal-head"><h3>Reserva recurrente</h3><button class="modal-close" id="serie-close0" onclick="this.closest('.modal-backdrop').style.display='none'">✕</button></div><div id="serie-body"></div><div class="row-btns"><button class="btn-primary btn-confirm" id="serie-keep" type="button">Conservar las reservadas</button><button class="btn-primary btn-muted" id="serie-drop" type="button">Cancelar la serie</button></div></div></div>
 <div class="modal-backdrop" id="susp-backdrop"><div class="modal"><div class="modal-head"><h3>Usuarios suspendidos</h3><button class="modal-close" id="susp-close">✕</button></div><div class="modal-sub">Suspendidos por 3 inasistencias en 30 días (7 días de suspensión).</div><div class="slot-list" id="susp-list"></div></div></div>
 
-<div class="modal-backdrop" id="panel-backdrop"><div class="modal"><div class="modal-head"><h3 id="panel-title"></h3><button class="modal-close" id="panel-close">✕</button></div><div id="panel-body"></div></div></div>
+<div class="modal-backdrop" id="panel-backdrop"><div class="modal"><div class="modal-head"><h3 id="panel-title">Panel</h3><button class="modal-close" id="panel-close">✕</button></div><div id="panel-body"></div></div></div>
 
 <div class="toast" id="toast"></div>
 

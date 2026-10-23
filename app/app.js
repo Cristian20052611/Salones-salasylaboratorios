@@ -87,7 +87,7 @@
   function blockOccupied(room, dateStr, blockKey){
     return fixedClassesFor(room, blockKey).length > 0;
   }
-  function slotFixed(room, slot){ var h = parseInt(slot.split(':')[0], 10); return HORARIO_FIJO.some(function(c){ if(c.code !== room.code) return false; var p = c.block.split('-'); return parseInt(p[0],10) <= h && parseInt(p[1],10) > h; }); }
+  function slotFixed(room, slot){ var h = Number.parseInt(slot.split(':')[0], 10); return HORARIO_FIJO.some(function(c){ if(c.code !== room.code) return false; var p = c.block.split('-'); return Number.parseInt(p[0],10) <= h && Number.parseInt(p[1],10) > h; }); }
   function blockSubject(room, dateStr, blockKey){
     var clases = fixedClassesFor(room, blockKey);
     if(clases.length === 0) return '';
@@ -116,7 +116,7 @@
   }
   function parseDateStr(s){
     var parts = s.split('-');
-    return new Date(parseInt(parts[0],10), parseInt(parts[1],10)-1, parseInt(parts[2],10));
+    return new Date(Number.parseInt(parts[0],10), Number.parseInt(parts[1],10)-1, Number.parseInt(parts[2],10));
   }
   function addDays(dateStr, days){
     var d = parseDateStr(dateStr);
@@ -297,7 +297,7 @@
     rpcDo('checkout_booking', {p_id: outId, p_ok: ok, p_novedad: ok ? null : d}, 'Entrega registrada.', function(){ hide('out-backdrop')(); refreshMine(); });
   });
   function createSeries(doc, subj, asist){
-    rpcDo('create_series', {p_room: activeRoom.code, p_first: state.calDate, p_slot: pendingSlot, p_reps: parseInt(el('booking-reps').value, 10) || 2, p_doc: doc, p_subject: subj, p_asistentes: asist}, null, function(r){
+    rpcDo('create_series', {p_room: activeRoom.code, p_first: state.calDate, p_slot: pendingSlot, p_reps: Number.parseInt(el('booking-reps').value, 10) || 2, p_doc: doc, p_subject: subj, p_asistentes: asist}, null, function(r){
       lastSerie = r;
       el('serie-body').innerHTML = '<p><b>Reservadas (' + r.creadas.length + '):</b> ' + (r.creadas.join(', ') || 'ninguna') + '</p>' +
         (r.fallidas.length ? '<p><b>No se pudieron reservar:</b></p>' + r.fallidas.map(function(f){ return '<div class="slot-state">' + escapeHtml(f.fecha) + ' — ' + escapeHtml(f.motivo) + '</div>'; }).join('') : '');
@@ -469,7 +469,7 @@
         ((res.data || []).map(function(r){ return '<div class="slot-row"><div><div class="slot-time">' + escapeHtml(roomLabelByCode(r.room)) + ' · ' + escapeHtml(r.tipo) + '</div><span class="slot-state">' + escapeHtml(r.descripcion || '') + ' · <b>' + escapeHtml(r.estado) + '</b>' + (r.responsable ? ' · Responsable: ' + escapeHtml(r.responsable) : '') + '</span></div></div>'; }).join('') || '<div class="content-sub">Aún no has reportado daños.</div>'));
       el('dr-send').addEventListener('click', function(){
         if(!pv('dr-desc').trim()){ showToast('Describe la falla.'); return; }
-        rpcDo('report_damage', {p_room: pv('dr-room'), p_tipo: pv('dr-tipo'), p_desc: pv('dr-desc').trim()}, 'Reporte enviado; el administrador fue notificado.', function(){ reload().then(function(){ renderRooms(); openMyReports(); }); });
+        rpcDo('report_damage', {p_room: pv('dr-room'), p_tipo: pv('dr-tipo'), p_desc: pv('dr-desc').trim()}, 'Reporte enviado; el administrador fue notificado.', function(){ void reload().then(function(){ renderRooms(); openMyReports(); }); });
       });
     });
   }
@@ -519,7 +519,7 @@
           if(!off && !confirm('El espacio dejará de recibir reservas. ¿Dar de baja?')) return;
           rpcDo('set_salon_activo', {p_code: s.code, p_activo: off}, null, function(n){
             showToast(off ? 'Espacio reactivado.' : 'Espacio dado de baja. Reservas futuras activas: ' + n + ' (resuélvelas con "Cambiar salón").');
-            reload().then(function(){ renderRooms(); openInventory(); });
+            void reload().then(function(){ renderRooms(); openInventory(); });
           });
         });
       });
@@ -532,7 +532,7 @@
     el('sp-back').addEventListener('click', openInventory);
     el('sp-save').addEventListener('click', function(){
       if(!pv('sp-code').trim() || !pv('sp-label').trim()){ showToast('Código y nombre son obligatorios.'); return; }
-      rpcDo('upsert_salon', {p_code: pv('sp-code').trim(), p_label: pv('sp-label').trim(), p_tipo: pv('sp-tipo'), p_piso: parseInt(pv('sp-piso'), 10) || null, p_sillas: parseInt(pv('sp-sillas'), 10) || null, p_ubic: pv('sp-ubic').trim() || null}, 'Espacio guardado.', function(){ reload().then(function(){ renderRooms(); openInventory(); }); });
+      rpcDo('upsert_salon', {p_code: pv('sp-code').trim(), p_label: pv('sp-label').trim(), p_tipo: pv('sp-tipo'), p_piso: Number.parseInt(pv('sp-piso'), 10) || null, p_sillas: Number.parseInt(pv('sp-sillas'), 10) || null, p_ubic: pv('sp-ubic').trim() || null}, 'Espacio guardado.', function(){ void reload().then(function(){ renderRooms(); openInventory(); }); });
     });
   }
   function resourcesPanel(s){
@@ -547,7 +547,7 @@
         function save(baja){
           var t = row.querySelector('.r-tipo').value.trim();
           if(!t){ showToast('Escribe el recurso.'); return; }
-          rpcDo('upsert_recurso', {p_id: row.getAttribute('data-id') ? Number(row.getAttribute('data-id')) : null, p_room: s.code, p_tipo: t, p_cantidad: parseInt(row.querySelector('.r-cant').value, 10) || 0, p_operativos: parseInt(row.querySelector('.r-op').value, 10) || 0, p_estado: baja ? 'baja' : row.querySelector('.r-est').value}, 'Recurso guardado.', function(){ reload().then(function(){ resourcesPanel(s); }); });
+          rpcDo('upsert_recurso', {p_id: row.getAttribute('data-id') ? Number(row.getAttribute('data-id')) : null, p_room: s.code, p_tipo: t, p_cantidad: Number.parseInt(row.querySelector('.r-cant').value, 10) || 0, p_operativos: Number.parseInt(row.querySelector('.r-op').value, 10) || 0, p_estado: baja ? 'baja' : row.querySelector('.r-est').value}, 'Recurso guardado.', function(){ void reload().then(function(){ resourcesPanel(s); }); });
         }
         row.querySelector('.r-save').addEventListener('click', function(){ save(false); });
         var d = row.querySelector('.r-del'); if(d) d.addEventListener('click', function(){ save(true); });
@@ -584,7 +584,7 @@
   }
 
   function openSoftware(){
-    reload().then(function(){
+    void reload().then(function(){
       var pcRooms = ROOMS.filter(hasComputers);
       panel('Software',
         '<div class="room-detail-title">Nuevo software</div><div class="booking-form open">' +
@@ -663,12 +663,12 @@
         '<div class="row-btns"><button class="btn-primary btn-confirm" id="bl-save" type="button">Bloquear</button></div></div><div id="bl-aff"></div><div class="room-detail-title" style="margin-top:14px;">Bloqueos activos</div>' +
         ((res.data || []).map(function(b){ return '<div class="slot-row"><div><div class="slot-time">' + escapeHtml(roomLabelByCode(b.room)) + ' · ' + escapeHtml(b.tipo) + '</div><span class="slot-state">' + escapeHtml(String(b.desde).replace('T', ' ').slice(0, 16)) + ' → ' + (String(b.hasta).slice(0, 4) === '9999' ? 'hasta que se desbloquee' : escapeHtml(String(b.hasta).replace('T', ' ').slice(0, 16))) + ' · ' + escapeHtml(b.motivo || '') + '</span></div><button class="slot-btn book b-un" data-id="' + b.id + '" type="button">Desbloquear</button></div>'; }).join('') || '<div class="content-sub">No hay bloqueos activos.</div>'));
       el('panel-body').querySelectorAll('.b-un').forEach(function(b){
-        b.addEventListener('click', function(){ rpcDo('unblock', {p_id: Number(b.getAttribute('data-id'))}, 'Espacio desbloqueado.', function(){ reload().then(function(){ renderRooms(); openBlocks(); }); }); });
+        b.addEventListener('click', function(){ rpcDo('unblock', {p_id: Number(b.getAttribute('data-id'))}, 'Espacio desbloqueado.', function(){ void reload().then(function(){ renderRooms(); openBlocks(); }); }); });
       });
       el('bl-save').addEventListener('click', function(){
         if(!pv('bl-desde') || !pv('bl-hasta')){ showToast('Indica desde y hasta.'); return; }
         rpcDo('create_block', {p_room: pv('bl-room'), p_desde: pv('bl-desde'), p_hasta: pv('bl-hasta'), p_tipo: pv('bl-tipo'), p_motivo: pv('bl-motivo')}, 'Espacio bloqueado.', function(r){
-          reload().then(function(){ renderRooms(); });
+          void reload().then(function(){ renderRooms(); });
           el('bl-aff').innerHTML = affHtml(r.afectadas, 'Reservas que cruzan el bloqueo (resuélvelas con "Cambiar salón" o "Cancelar" en Ver reservas):');
         });
       });
@@ -680,7 +680,7 @@
       '<div class="row-btns"><button class="btn-primary btn-muted" id="ev-prev" type="button">Ver reservas afectadas</button><button class="btn-primary btn-confirm" id="ev-ok" type="button">Confirmar evento</button></div></div><div id="ev-out"></div>');
     function run(c){
       var rooms = Array.prototype.map.call(el('ev-rooms').selectedOptions, function(o){ return o.value; });
-      var a = {p_nombre: pv('ev-nombre').trim(), p_resp: pv('ev-resp').trim(), p_rooms: rooms, p_desde: pv('ev-desde'), p_hasta: pv('ev-hasta'), p_asist: parseInt(pv('ev-asist'), 10) || null, p_confirm: c};
+      var a = {p_nombre: pv('ev-nombre').trim(), p_resp: pv('ev-resp').trim(), p_rooms: rooms, p_desde: pv('ev-desde'), p_hasta: pv('ev-hasta'), p_asist: Number.parseInt(pv('ev-asist'), 10) || null, p_confirm: c};
       if(!a.p_nombre || !rooms.length || !a.p_desde || !a.p_hasta){ showToast('Completa nombre, espacios y fechas.'); return; }
       if(c && !confirm('Se cancelarán las reservas afectadas. ¿Confirmar el evento?')) return;
       rpcDo('create_event', a, c ? 'Evento registrado.' : null, function(r){
@@ -688,7 +688,7 @@
         if(r.clases && r.clases.length) h += '<p class="slot-state">Clases fijas en esos espacios (solo se mueven con "Cambiar salón"): ' + r.clases.map(function(x){ return escapeHtml(x.room + ' ' + x.block + ' ' + x.asignatura); }).join('; ') + '</p>';
         if(c && r.alternativas) h += altHtml(r.alternativas);
         el('ev-out').innerHTML = h;
-        if(c) reload().then(function(){ renderRooms(); });
+        if(c) void reload().then(function(){ renderRooms(); });
       });
     }
     el('ev-prev').addEventListener('click', function(){ run(false); });
@@ -861,7 +861,7 @@
             if(rep && !confirm('Se BORRARÁN todas las clases actuales del horario y se cargarán solo las ' + bulkRows.length + ' filas del archivo. Esta acción no se puede deshacer. ¿Continuar?')) return;
             rpcDo('bulk_import', {p_tipo: t, p_rows: bulkRows, p_reemplazar: rep}, null, function(r){
               out.innerHTML = (rep ? '<p>Clases anteriores borradas: <b>' + r.borradas + '</b></p>' : '') + '<p><b>Importadas: ' + r.importadas + '</b> · Con error: ' + r.errores.length + '</p>' + r.errores.slice(0, 50).map(function(x){ return '<div class="slot-state">Fila ' + x.fila + ': ' + escapeHtml(x.motivo) + '</div>'; }).join('');
-              reload().then(function(){ renderRooms(); });
+              void reload().then(function(){ renderRooms(); });
             });
           });
         } catch(err){ out.innerHTML = '<p>No se pudo leer el archivo. Usa .xlsx o .csv con la plantilla.</p>'; }
@@ -885,9 +885,9 @@
   el('rules-close').addEventListener('click', function(){ el('rules-backdrop').style.display = 'none'; });
   el('rules-cancel').addEventListener('click', function(){ el('rules-backdrop').style.display = 'none'; });
   el('rules-save').addEventListener('click', function(){
-    var vals = RULE_KEYS.map(function(k){ return {k: k, v: parseInt(el('rg-' + k).value, 10)}; });
+    var vals = RULE_KEYS.map(function(k){ return {k: k, v: Number.parseInt(el('rg-' + k).value, 10)}; });
     if(vals.some(function(x){ return !(x.v >= 1); })){ showToast('Todos los límites deben ser números de 1 o más.'); return; }
-    Promise.all(vals.map(function(x){ return getSupabase().from('reglas').update({valor: x.v}).eq('clave', x.k); })).then(function(rs){
+    void Promise.all(vals.map(function(x){ return getSupabase().from('reglas').update({valor: x.v}).eq('clave', x.k); })).then(function(rs){
       var bad = rs.filter(function(r){ return r.error; })[0];
       if(bad){ rpcErr(bad); return; }
       el('rules-backdrop').style.display = 'none';
@@ -1277,7 +1277,8 @@
   function baseUrl(){
     // Construye la URL de la página actual sin el "index.html" del final,
     // para que el link de confirmación apunte a confirmar.html en el mismo sitio.
-    return window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
+    var ruta = window.location.pathname;
+    return window.location.origin + ruta.slice(0, ruta.lastIndexOf('/') + 1);
   }
 
   function notifyCoordinator(booking, room, cambio){
@@ -1343,7 +1344,7 @@
 
   // ---------- RENDER ROOM GRID ----------
   function filteredRooms(){
-    var q = el('f-search').value.trim().toLowerCase(), t = el('f-recurso').value, mn = parseInt(el('f-min').value, 10) || 1, af = parseInt(el('f-aforo').value, 10) || 0;
+    var q = el('f-search').value.trim().toLowerCase(), t = el('f-recurso').value, mn = Number.parseInt(el('f-min').value, 10) || 1, af = Number.parseInt(el('f-aforo').value, 10) || 0;
     var sw = el('f-software') ? el('f-software').value : '';
     return filteredRooms0().filter(function(r){
       // La búsqueda también encuentra salones por el nombre del software instalado (ej. "python")
@@ -1693,7 +1694,7 @@
       showToast('Escribe un motivo o materia para reservar.');
       return;
     }
-    var asistentes = parseInt(document.getElementById('booking-asist').value, 10);
+    var asistentes = Number.parseInt(document.getElementById('booking-asist').value, 10);
     if(!(asistentes >= 1)){ showToast('Indica la cantidad de asistentes.'); return; }
     if(el('booking-rep').checked){ createSeries(documento, subject, asistentes); return; }
     insertBooking(state.calDate, {room: activeRoom.code, slot: pendingSlot, user: state.user, documento: documento, subject: subject, asistentes: asistentes}).then(function(newBooking){
@@ -1829,7 +1830,7 @@
     if(!subj){ showToast('Escribe el motivo.'); return; }
     var antes = {date: modifying.date, slot: modifying.slot};
     var salaMod = ROOMS.filter(function(r){ return r.code === modifying.room; })[0];
-    getSupabase().rpc('modify_booking', {p_id: Number(modifying.id), p_date: el('mod-date').value, p_slot: el('mod-slot').value, p_subject: subj, p_asistentes: parseInt(el('mod-asist').value, 10) || null}).then(function(res){
+    getSupabase().rpc('modify_booking', {p_id: Number(modifying.id), p_date: el('mod-date').value, p_slot: el('mod-slot').value, p_subject: subj, p_asistentes: Number.parseInt(el('mod-asist').value, 10) || null}).then(function(res){
       if(res.error){ rpcErr(res); return; }
       var nb = res.data || {};
       if(nb.id && nb.confirm_token && salaMod){
@@ -1879,7 +1880,7 @@
   function rtRefrescar(){
     var tablas = rtTablas; rtTablas = {};
     var soloReservas = Object.keys(tablas).every(function(t){ return t === 'bookings'; });
-    (soloReservas ? Promise.resolve() : reload()).then(function(){
+    void (soloReservas ? Promise.resolve() : reload()).then(function(){
       if(!state.profile) return;
       if(el('app-screen').style.display === 'block'){
         loadBookingsForDate(state.date).then(function(l){ state.bookings = l; renderRooms(); });

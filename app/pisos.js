@@ -4,13 +4,13 @@
   function floorOf(code){
     var m=String(code||'').match(/\d{3,}/);
     if(!m) return null;
-    return parseInt(m[0].slice(0,m[0].length-2),10);
+    return Number.parseInt(m[0].slice(0,m[0].length-2),10);
   }
 
   function codeNum(card){
     var el=card.querySelector('.room-code');
     var m=String(el?el.textContent:'').match(/\d+/);
-    return m?parseInt(m[0],10):0;
+    return m?Number.parseInt(m[0],10):0;
   }
 
   function buildGrid(grid){
@@ -33,7 +33,7 @@
     var keys=Object.keys(groups).sort(function(a,b){
       if(a==='x') return 1;
       if(b==='x') return -1;
-      return parseInt(a,10)-parseInt(b,10);
+      return Number.parseInt(a,10)-Number.parseInt(b,10);
     });
 
     grid.classList.add('por-pisos');
